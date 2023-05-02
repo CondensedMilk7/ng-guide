@@ -1,6 +1,6 @@
 # Summary
 
-- [ამ წიგნის შესახებ](./README.md)
+[ამ წიგნის შესახებ](./README.md)
 
 # სრული ფუნდამენტები
 
@@ -65,6 +65,10 @@
 # ბონუსები
 
 - [HostListener](./at-host/host-listener.md)
+- [TypeScript-ის მოკლე შესავალი](./typescript/README.md)
+  - [ინსტალაცია და გამოყენება](./typescript/tsc.md)
+  - [ძირითადი ტიპები](./typescript/types.md)
+  - [კლასები](./typescript/classes.md)
 - [Tests](./tests/README.md)
 - [Deployment](./deployment/README.md)
 
