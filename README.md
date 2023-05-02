@@ -2,7 +2,7 @@
 
 # Angular Guide - ანგულარის (არაოფიციალური) ქართული გზამკვლევი
 
-[ეწვიეთ წიგნის ვებსაიტს]()
+[ეწვიეთ წიგნის ვებსაიტს](https://angular.pridontetradze.com)
 
 ვებსაიტი არის სტატიკურად გენერირებული [mdBook-ის დახმარებით](https://rust-lang.github.io/mdBook/).
 
