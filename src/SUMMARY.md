@@ -71,6 +71,9 @@
   - [კლასები](./typescript/classes.md)
 - [Tests](./tests/README.md)
 - [Deployment](./deployment/README.md)
+- [Standalone Components](./standalone/README.md)
+  - [შექმნა და გამოყენება](./standalone/creation-and-usage.md)
+  - [Routing & Lazy-loading](./standalone/routing-and-lazy-loading.md)
 
 ---
 
