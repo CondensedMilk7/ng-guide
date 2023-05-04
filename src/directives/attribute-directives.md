@@ -32,7 +32,7 @@
 ## NgModel
 
 `NgModel` დირექტივი არის `FormsModule`-ის ნაწილი, რომელიც ჩვენ საჭირო მოდულში
-უნდა დავაიმპორტოთ. ამ შემთხვევაში მად ვაიმპორტებთ `app.module.ts`-ში:
+უნდა დავაიმპორტოთ. ამ შემთხვევაში მათ ვაიმპორტებთ `app.module.ts`-ში:
 
 ```ts
 import { FormsModule } from "@angular/forms"; // <--- JavaScript import from Angular
