@@ -54,8 +54,6 @@ fluidVar = false;
 fluidVar = { name: "john" };
 ```
 
-მასივების შემთხვევაში
-
 `any` ტიპი გულისხმობს ნებისმიერ ტიპს. ასეთი ტიპის წყალობით ტაიპსკრიპტი არანაირ მნიშვნელობაზე
 არ გამოაცხადებს პრეტენზიას.
 
@@ -173,7 +171,7 @@ const admin: Admin = {
 `number`, 1-ზე `string`, ხოლო 2-ზე `boolean` ტიპის მნიშვნელობები.
 
 ```ts
-let myTuple: [number, string, boolean] = [4, "IT Academy STEP", true];
+let myTuple: [number, string, boolean] = [4, "Tuple this, tuple that", true];
 
 myTuple[1] = false; // გამოიწვევს ერორს, რადგან string-ს ვანაცვლებთ boolean-ით.
 ```
@@ -182,7 +180,7 @@ myTuple[1] = false; // გამოიწვევს ერორს, რად
 ცვლადები შესაბამის ტიპებს მიიღებენ.
 
 ```ts
-let myTuple: [number, string, boolean] = [4, "IT Academy STEP", true];
+let myTuple: [number, string, boolean] = [4, "Tuple this, tuple that", true];
 
 const [a, b, c] = myTuple;
 ```
