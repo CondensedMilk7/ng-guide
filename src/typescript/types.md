@@ -42,7 +42,7 @@ user.id = "98"; // გამოიწვევს ერორს, რადგ�
 
 ```ts
 const typescript: string = "cool"; // ცვლადი მხოლოდ string იქნება
-const myBool: boolean; // ცვლადი მხოლოდ boolean იქნება
+let myBool: boolean; // ცვლადი მხოლოდ boolean იქნება
 
 if (typescript === "cool") {
   myBool = true; // ვალიდურია
