@@ -87,7 +87,7 @@ signupForm = this.fb.group({
   name: ["", [Validators.required, Validators.pattern(/^[A-z]/)]],
   email: ["", [Validators.required, Validators.email]],
   password: ["", Validators.required],
-  confirmPassword: ["", Validaro],
+  confirmPassword: ["", Validators.required],
 });
 ```
 
