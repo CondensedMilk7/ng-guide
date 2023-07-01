@@ -196,10 +196,7 @@ export class ProductsService {
   }
 
   addProduct(product: AddProduct) {
-    return this.http.post<Product>(
-      `${this.baseUrl}/products/add`,
-      JSON.stringify(product)
-    );
+    return this.http.post<Product>(`${this.baseUrl}/products/add`, product);
   }
 
   deleteProduct(id: number) {
@@ -209,7 +206,7 @@ export class ProductsService {
   editProduct(updatedProduct: Partial<Product>) {
     return this.http.put<Product>(
       `${this.baseUrl}/products/${updatedProduct.id}`,
-      JSON.stringify(updatedProduct)
+      updatedProduct
     );
   }
 }
@@ -217,14 +214,14 @@ export class ProductsService {
 
 პროდუქტის დამატებისას ჩვენ პარამეტრში მივიღებთ ახალ პროდუქტს და მას
 გავგზავნით სათანადო ენდფოინთზე. `post` მეთოდს მეორე არგუმენტად ვაწვდით
-სწორედ ამ ობიექტს, თუმცა ის ჯერ უნდა JSON-ის ფორმატის სტრინგად გადავაქციოთ.
+სწორედ ამ ობიექტს. მასზე `JSON.stringify` არ გვიჭირდება, რადგან ამას `HttpClient`
+გააკეთებს.
 
 წაშლის მოთხოვნის შემთხვევაში ჩვენ მხოლოდ პროდუქტის `id` გვჭირდება და
 `delete` მოთხოვნის გაგზავნა ამ `id`-ის მქონე ენდფოინთზე.
 
 პროდუქტის განახლებისთვის სერვერი იღებს put მოთხოვნას. ჩვენ განახლებულ
 პროდუქტს ვიღებთ პარამეტრში და მას ვაგზავნით ამ პროდუქტის აიდის მქონე ენდფოინთზე.
-რა თქმა უნდა, აქაც ამ პროდუქტის ობიექტს JSON-ის სტრინგად ვაქცევთ.
 
 ჩვენი app.component.ts ახლა ასე უნდა გამოიყურებოდეს:
 
