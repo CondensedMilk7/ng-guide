@@ -253,8 +253,7 @@ export class AppComponent implements OnInit {
       title: "New Product",
       description: "This is a new test product!",
       price: 399,
-      thumbnail:
-        "https://static.hr.ge/hrra-prod-hrge-general/logo/17929/911a13e7-a060-4c0d-8660-92d69d0127dd.png",
+      thumbnail: "https://angular.io/assets/images/logos/angular/angular.svg",
     };
 
     this.productsService.addProduct(newProduct).subscribe((newProduct) => {
