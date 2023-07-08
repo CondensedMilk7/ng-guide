@@ -117,8 +117,7 @@ export class AppComponent implements OnInit {
       console.log("subscription one", event);
     });
 
-    this.mySubscriptionTwo$ = this.mySubscription =
-      this.myObservable$.subscribe((event) => {
+    this.mySubscriptionTwo$ = this.myObservable$.subscribe((event) => {
         console.log("subscription two", event);
       });
   }
