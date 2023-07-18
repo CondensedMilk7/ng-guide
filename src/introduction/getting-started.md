@@ -81,7 +81,7 @@ ng serve
 
 visual studio code-ში რეკომენდირებულია რომ დააყენოთ შემდეგი ექსთენშენები:
 
-- Angular Language Server
+- Angular Language Service
 - angular2-inline
 - ESLint
 - Material Icon Theme
