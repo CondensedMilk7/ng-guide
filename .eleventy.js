@@ -46,7 +46,11 @@ module.exports = function (eleventyConfig) {
     });
   });
 
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+  });
   md.use(mdAnchor, { permalink: mdAnchor.permalink.headerLink() });
   eleventyConfig.setLibrary("md", md);
 
