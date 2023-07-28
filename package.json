@@ -14,6 +14,7 @@
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "child_process": "^1.0.2",
+    "markdown-it-anchor": "^8.6.7",
     "pagefind": "^0.12.0"
   }
 }

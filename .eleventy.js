@@ -2,6 +2,7 @@ const { DateTime } = require("luxon");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const MarkdownIt = require("markdown-it");
 const { execSync } = require("child_process");
+const mdAnchor = require("markdown-it-anchor");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/styles");
@@ -44,6 +45,10 @@ module.exports = function (eleventyConfig) {
       encoding: "utf-8",
     });
   });
+
+  const md = new MarkdownIt();
+  md.use(mdAnchor, { permalink: mdAnchor.permalink.headerLink() });
+  eleventyConfig.setLibrary("md", md);
 
   return {
     dir: {
