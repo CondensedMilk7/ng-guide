@@ -1,0 +1,6 @@
+<aside>
+    <nav>
+        {% set snippet %}{% include 'SUMMARY.md' %}{% endset %}
+        {{ snippet | summary(page) | safe }}
+    </nav>
+</aside>

@@ -1,0 +1,112 @@
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: inherit;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  font-size: 1rem;
+  transition: var(--bg-transition);
+}
+
+.path {
+  display: flex;
+}
+
+.path .prompt {
+  margin-left: 0.5rem;
+}
+
+.path .blinker {
+  opacity: 0;
+  margin-left: 0.5rem;
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
+}
+
+.main-header button {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-header a {
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#menu-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  font-size: 1.3rem;
+}
+
+#menu-btn > span {
+  height: 0.12em;
+  width: 1.2em;
+  border-radius: 2px;
+  background-color: var(--fg-dark);
+}
+
+.light #menu-btn > span {
+  background-color: var(--fg-light);
+}
+
+#menu-btn > span:nth-child(2) {
+  margin: 0.2em 0;
+}
+
+.main-header .right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#theme-switch {
+  text-decoration: none;
+  /* margin-left: 2rem; */
+  padding: 0;
+}
+
+#theme-switch svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.main-header ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--fg-dark);
+}
+
+.light .nav-link {
+  color: var(--fg-light);
+}
+
+.nav-active {
+  color: var(--blue-dark);
+}
+
+.light .nav-active {
+  color: var(--blue-light);
+}

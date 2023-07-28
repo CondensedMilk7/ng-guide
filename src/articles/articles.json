@@ -1,0 +1,6 @@
+{
+  "templateEngineOverride": "md",
+  "tags": "articles",
+  "layout": "base",
+  "permalink": "{{ page.filePathStem | rootify }}"
+}
