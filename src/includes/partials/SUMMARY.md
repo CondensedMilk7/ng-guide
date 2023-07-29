@@ -64,7 +64,7 @@
 
 ### ბონუსები
 
-- [HostListener](/at-host/host-listener.html)
+- [HostListener](/at-host/index.html)
 - [TypeScript-ის მოკლე შესავალი](/typescript/index.html)
   - [ინსტალაცია და გამოყენება](/typescript/tsc.html)
   - [ძირითადი ტიპები](/typescript/types.html)

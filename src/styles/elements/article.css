@@ -34,10 +34,14 @@ article p {
   margin: 1rem 0;
 }
 
-article ul,
-article ol {
+article ul {
   text-align: left;
   padding-left: 1rem;
+}
+
+article ol {
+  text-align: left;
+  padding-left: 3rem;
 }
 
 article h1 {
