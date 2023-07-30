@@ -69,6 +69,7 @@ aside {
   top: 0;
   left: 0;
   color: var(--fg-dark);
+  background-color: var(--bg-dark);
 }
 
 aside[data-visible="true"] {
@@ -81,6 +82,7 @@ aside[data-visible="false"] {
 
 .light aside {
   color: var(--fg-light);
+  background-color: var(--bg-light);
 }
 
 aside h3 {
@@ -309,9 +311,5 @@ a:hover {
     left: 0;
     display: none;
     background-color: var(--bg-dark);
-  }
-
-  .light aside {
-    background-color: var(--bg-light);
   }
 }
