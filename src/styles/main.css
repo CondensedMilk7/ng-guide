@@ -255,6 +255,27 @@ a:hover {
   text-align: center;
 }
 
+::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.light ::-webkit-scrollbar-track:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(116, 131, 144);
+  border-radius: 2px;
+}
+
 @media (max-width: 650px) {
   html {
     scroll-padding-top: 6rem;
