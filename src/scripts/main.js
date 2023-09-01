@@ -3,7 +3,20 @@ import { themeSwitch } from "./theme/index.js";
 function init() {
   themeSwitch();
 
-  document.querySelector("aside .active").scrollIntoView({ block: "center" });
+  const highlightedLink = document.querySelector("aside .active");
+
+  if (highlightedLink) {
+    const sidebar = document.querySelector("aside");
+    const sidebarRect = sidebar.getBoundingClientRect();
+    const linkRect = highlightedLink.getBoundingClientRect();
+
+    if (linkRect.bottom > sidebarRect.bottom) {
+      sidebar.scrollTop =
+        linkRect.top -
+        sidebarRect.top -
+        (sidebarRect.height - linkRect.height) / 2;
+    }
+  }
 
   document.querySelector("#menu-btn").addEventListener("click", () => {
     const container = document.querySelector(".radiance-container");
