@@ -62,6 +62,13 @@
   - [წაშლა და მონიშვნა](/state-management/update-and-delete.html)
   - [შეჯამება](/state-management/summary.html)
 
+### Advanced
+
+- [ინტერნაციონალიზაცია](/internationalization/index.html)
+  - [angular i18n](/internationalization/angular-i18n.html)
+  - [ngx-translate](/internationalization/ngx-translate.html)
+  - [შეჯამება](/internationalization/summary.html)
+
 ### ბონუსები
 
 - [HostListener](/at-host/index.html)
