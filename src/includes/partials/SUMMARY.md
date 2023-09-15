@@ -1,6 +1,7 @@
 ### სარჩევი
 
 - [ამ წიგნის შესახებ](/index.html)
+- [კონტრიბუტორები](/misc/contributors.html)
 
 ### სრული ფუნდამენტები
 
@@ -81,7 +82,3 @@
 - [Standalone Components](/standalone/index.html)
   - [შექმნა და გამოყენება](/standalone/creation-and-usage.html)
   - [Routing & Lazy-loading](/standalone/routing-and-lazy-loading.html)
-
----
-
-- [კონტრიბუტორები](/misc/contributors.html)
