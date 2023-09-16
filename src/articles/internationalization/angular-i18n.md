@@ -22,6 +22,7 @@ title: "ანგულარის i18n"
 ლოკალის ფორმატია: `{ენის_id}-{ენის_გაფართოვება}`
 
 მაგალითად:
+
 - `en-US` (English, The United States)
 - `ka-GE` (ქართული, საქართველო)
 - `fr-CA` (French, Canada)
@@ -36,7 +37,7 @@ title: "ანგულარის i18n"
 
 ## ინსტალიაცია
 
-ინტერნაციონალიზაციის პაკეტის დასაინსტალირებლად, დაგვჭირდება ანგულარის CLI გამოყენება:
+ინტერნაციონალიზაციის პაკეტის დასაინსტალირებლად, დაგვჭირდება ანგულარის CLI-ს გამოყენება:
 
 ```sh
 ng add @angular/localize
@@ -44,7 +45,7 @@ ng add @angular/localize
 
 ინსტალაციის დროს ამოგვიგდებს ეთანხმებით თუ არა ანგულარის პაკეტის დაინსტალირებას, რასაც უნდა დავეთანხმოთ.
 
-შემდგომ შევუდგეთ angular.json-ში `build`-ის ქვეშ `i18n` ველის დამატება.
+შემდგომ შევუდგეთ angular.json-ში `build`-ის ქვეშ `i18n` ველის დამატებას.
 
 ```json
 {
@@ -81,19 +82,26 @@ ng add @angular/localize
 
 ```html
 <h1>Page header</h1>
-<img src="https://raw.githubusercontent.com/educata/everrest/main/assets/images/educata-bg-white.png" alt="educata project logo">
+<img
+  src="https://raw.githubusercontent.com/educata/everrest/main/assets/images/educata-bg-white.png"
+  alt="educata project logo"
+/>
 ```
 
-ეხლა უნდა დავიწყოთ ლოკალიზაციისთვის მომზადება ანუ იმ ადგილების მონიშვნა, რომლის ლოკალიზაცია გვსურს, ამას `html`-ში ვაკეთებთ `i18n` ატრიბუტის დამატებით.
+ახლა უნდა დავიწყოთ ლოკალიზაციისთვის მომზადება ანუ იმ ადგილების მონიშვნა, რომლის ლოკალიზაცია გვსურს, ამას `html`-ში ვაკეთებთ `i18n` ატრიბუტის დამატებით.
 
 ```html
 <h1 i18n>Page header</h1>
 ```
 
-ზოგჯერ დაგვჭირდება თვითონ ატრიბუტების გადათარგმნაც, რაც მეტწილადად გვეხმარება `accsessibility` ნაწილში, მაგალითად: `alt`, `aria-label` და ა.შ.
+ზოგჯერ დაგვჭირდება თვითონ ატრიბუტების გადათარგმნაც, რაც მეტწილად გვეხმარება `accsessibility` ნაწილში, მაგალითად: `alt`, `aria-label` და ა.შ.
 
 ```html
-<img i18n-alt src="https://raw.githubusercontent.com/educata/everrest/main/assets/images/educata-bg-white.png" alt="educata project logo">
+<img
+  i18n-alt
+  src="https://raw.githubusercontent.com/educata/everrest/main/assets/images/educata-bg-white.png"
+  alt="educata project logo"
+/>
 ```
 
 ხოლო `app.component.ts` მხარეს, შევიტანოთ მცირედი მოდიფიკაციები. პირველ რიგში დავაინჯექტოთ კონსტრუქტორში `Title` და გამოვიყენოთ დაინჯექტებული სერვისი იმისათვის,
@@ -116,14 +124,22 @@ constructor(private titleService: Title) {
 ```
 
 [`$localize`](https://angular.io/api/localize/init/$localize) თეგის დამატებით ვნიშნავთ სტრინგებს ლოკალიზაციისთვის.
+მაშასადამე, ნებისმიერი ცვლადი, რომელიც გვინდა რომ ტაიპსკრიპტის ფაილში გადაითარგმნოს, მოინიშნება ამ თეგით:
 
-ამ პროცესების გავლის შემდგომ გვჭირდება საშვალება, რომლითაც მონიშნულ ელემენტებს ერთმანეთისგან განვაცალკევებთ თარგმანისათვის.
+```ts
+export class MyComponent {
+  someString = $localize`This value can be localized!`;
+  messages = [$localize`hello`, $localize`goodbye`];
+}
+```
+
+ამ პროცესების გავლის შემდგომ გვჭირდება საშუალება, რომლითაც მონიშნულ ელემენტებს ერთმანეთისგან განვაცალკევებთ თარგმანისათვის.
 
 ```sh
 ng extract-i18n --output-path src/locale
 ```
 
-ბრძანების გაშვების შემდგომ უნდა დაგენერირდეს `messages.xlf` ფაილი, რომელიც არის თავდაპირველი ენისათვის, ჩვენს შემთხვევაში ინგლისური.
+ბრძანების გაშვების შემდგომ უნდა დაგენერირდეს `messages.xlf` ფაილი `src/locale`-ში, რომელიც არის თავდაპირველი ენისათვის, ჩვენს შემთხვევაში - ინგლისური.
 დავაკოპიროთ ეს ფაილი, მოვათავსოთ იგივე დირექტორიაში და დაკოპირებულ ფაილს გადავარქვათ სახელი `messages.ka.xlf`-ზე, აქ შევინახავთ ქართულ თარგმანს.
 ფაილის გახსნის შევამჩნევთ, რომ თითოეულ მესიჯის ფაილს გააჩნია სექცია, ამ სექციაში არის თარგმანის აიდი და ორიგინალი ტექსტი.
 
