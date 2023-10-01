@@ -48,7 +48,8 @@ article h1 {
   font-size: 2.3em;
 }
 
-article ul li {
+article ul li,
+article ol li {
   margin: 1rem;
 }
 
