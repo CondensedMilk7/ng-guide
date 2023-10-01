@@ -3,6 +3,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const MarkdownIt = require("markdown-it");
 const { execSync } = require("child_process");
 const mdAnchor = require("markdown-it-anchor");
+const mdHighlightjs = require("markdown-it-highlightjs");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/styles");
@@ -52,6 +53,9 @@ module.exports = function (eleventyConfig) {
     typographer: true,
   });
   md.use(mdAnchor, { permalink: mdAnchor.permalink.headerLink() });
+
+  md.use(mdHighlightjs, { auto: false });
+
   eleventyConfig.setLibrary("md", md);
 
   return {
