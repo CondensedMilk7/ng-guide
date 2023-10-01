@@ -6,10 +6,11 @@ pre code.hljs {
 code.hljs {
   padding: 3px 5px;
 }
-
-.hljs-comment,
-.hljs-meta {
+.hljs-comment {
   color: #565f89;
+}
+.hljs-meta {
+  color: #8097ff;
 }
 .hljs-deletion,
 .hljs-doctag,
