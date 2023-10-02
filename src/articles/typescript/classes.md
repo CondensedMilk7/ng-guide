@@ -69,7 +69,7 @@ const g = new Hero();
 g.name = "Pridon"; // can't modify here either
 ```
 
-# public
+## public
 
 ჩვეულებრივ ყველა კლასის წევრის ხილვადობა აირს დაყენებული `public`-ზე,
 რაც ნიშნავს, რომ ის კლასის გარედან ხელმისაწვდომია,
