@@ -78,15 +78,15 @@ pre code {
 }
 
 code {
-  font-size: 0.9rem;
-  font-family: "JetBrains Mono", "Noto Sans Georgian", monospace;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
   background-color: #222331;
   padding: 0 4px;
   border-radius: 4px;
 }
 
 .light code:not(.hljs) {
-  background-color: #a2b1b7;
+  background-color: var(--code-bg-light);
 }
 
 blockquote {

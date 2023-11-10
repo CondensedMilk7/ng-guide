@@ -1,5 +1,25 @@
 import { themeSwitch } from "./theme/index.js";
 
+const SIDENAV_ANIM_DURATION = 250;
+const container = document.querySelector(".radiance-container");
+const sidenav = document.querySelector("aside");
+
+sidenav.style.animationDuration = `${SIDENAV_ANIM_DURATION}ms`;
+
+function showSidebar(show) {
+  if (show) {
+    sidenav.style.animationName = "slide_in";
+    sidenav.setAttribute("data-visible", true);
+    container.removeAttribute("data-no-sidebar");
+  } else {
+    sidenav.style.animationName = "slide_out";
+    setTimeout(() => {
+      sidenav.setAttribute("data-visible", false);
+      container.setAttribute("data-no-sidebar", true);
+    }, SIDENAV_ANIM_DURATION);
+  }
+}
+
 function init() {
   themeSwitch();
 
@@ -19,23 +39,17 @@ function init() {
   }
 
   document.querySelector("#menu-btn").addEventListener("click", () => {
-    const container = document.querySelector(".radiance-container");
-    const sidenav = document.querySelector("aside");
     const navAttr = sidenav.getAttribute("data-visible");
 
     if (navAttr === "true") {
-      sidenav.setAttribute("data-visible", false);
-      container.setAttribute("data-no-sidebar", true);
+      showSidebar(false);
     } else if (navAttr === "false") {
-      sidenav.setAttribute("data-visible", true);
-      container.removeAttribute("data-no-sidebar");
+      showSidebar(true);
     } else if (!navAttr) {
       if (window.matchMedia("(max-width: 800px)").matches) {
-        sidenav.setAttribute("data-visible", true);
-        container.removeAttribute("data-no-sidebar");
+        showSidebar(true);
       } else {
-        sidenav.setAttribute("data-visible", false);
-        container.setAttribute("data-no-sidebar", true);
+        showSidebar(false);
       }
     }
   });
