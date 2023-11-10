@@ -7,14 +7,16 @@
     {% include "svg.njk" %}
     {% include "header.njk" %}
     {% include "search-dialog.njk" %}
-    <div class="radiance-container">
-       {% include "sidenav.njk" %}
-         <main>
-             <article data-pagefind-body>
-                {{ content | safe }} 
-             </article>
-         </main>
-         {# {% include "footer.njk" %} #}
+    <div class="main-container">
+        <div class="radiance-container">
+           {% include "sidenav.njk" %}
+             <main>
+                 <article data-pagefind-body>
+                    {{ content | safe }} 
+                 </article>
+             </main>
+             {# {% include "footer.njk" %} #}
+        </div>
     </div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 title: "ამ წიგნის შესახებ"
 ---
 
-<img src="./assets/logo.png" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
+<img src="./assets/ng-logo.gif" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
 
 # ამ წიგნის შესახებ
 
