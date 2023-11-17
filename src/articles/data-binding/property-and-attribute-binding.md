@@ -12,29 +12,31 @@ title: "Property & Attribute Binding"
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
-  styles: [
-    `
-      div {
-        transition: background 500ms ease;
-      }
-      .square-red {
-        width: 100px;
-        height: 100px;
-        background: red;
-      }
-      .square-blue {
-        width: 100px;
-        height: 100px;
-        background: blue;
-      }
-    `,
-  ],
+  styles: `
+    div {
+      transition: background 500ms ease;
+    }
+    .square-red {
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+    .square-blue {
+      width: 100px;
+      height: 100px;
+      background: blue;
+    }
+  `,
+  ,
 })
-export class AppComponent {
+export default class AppComponent {
   imgData = {
     src: "https://angular.io/assets/images/logos/angular/angular.svg",
     alt: "Angular Logo",

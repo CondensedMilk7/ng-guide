@@ -28,7 +28,7 @@ module.exports = function (eleventyConfig) {
 
   // cuts out the starting '/articles' from output url
   eleventyConfig.addFilter("rootify", (url) => {
-    return url.replace("/articles", "/") + ".html";
+    return url.replace("/articles", "/");
   });
 
   eleventyConfig.addFilter("summary", (mdString, page) => {

@@ -25,6 +25,7 @@ function init() {
 
   const highlightedLink = document.querySelector("aside .active");
 
+  // Scroll navigation sidebar into active link
   if (highlightedLink) {
     const sidebar = document.querySelector("aside");
     const sidebarRect = sidebar.getBoundingClientRect();
@@ -36,6 +37,14 @@ function init() {
         sidebarRect.top -
         (sidebarRect.height - linkRect.height) / 2;
     }
+  }
+
+  // Scroll into active fragment (must be after navbat scroll)
+  if (window.location.hash) {
+    const fragment = document.getElementById(
+      window.location.hash.split("#")[1]
+    );
+    fragment.scrollIntoView();
   }
 
   document.querySelector("#menu-btn").addEventListener("click", () => {

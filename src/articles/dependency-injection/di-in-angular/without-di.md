@@ -17,10 +17,15 @@ app.component.ts
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Hero } from "./types/hero";
+import { HeroListComponent } from "./hero-list.component";
+import { HeroDetailsComponent } from "./hero-details.component";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule, HeroListComponent, HeroDetailsComponent],
   template: `
     <div class="container">
       <app-hero-list
@@ -46,7 +51,7 @@ import { Hero } from "./types/hero";
     `,
   ],
 })
-export class AppComponent {
+export default class AppComponent {
   heroes: Hero[] = [
     {
       name: "Tariel",
@@ -87,10 +92,13 @@ hero-list.component.ts
 
 ```ts
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Hero } from "../types/hero";
 
 @Component({
   selector: "app-hero-list",
+  standalone: true,
+  imports: [CommonModule],
   template: `
     <h2>Pick the hero</h2>
     <ul>
@@ -110,7 +118,7 @@ import { Hero } from "../types/hero";
     `,
   ],
 })
-export class HeroListComponent {
+export default class HeroListComponent {
   @Input() heroes!: Hero[];
   @Output() heroPicked = new EventEmitter<string>();
 }
@@ -124,10 +132,13 @@ hero-details.component.ts
 
 ```ts
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Hero } from "../types/hero";
 
 @Component({
   selector: "app-hero-details",
+  standalone: true,
+  imports: [CommonModule],
   template: `
     <div *ngIf="hero">
       <h2>{{ hero.name }}</h2>
@@ -135,7 +146,7 @@ import { Hero } from "../types/hero";
     </div>
   `,
 })
-export class HeroDetailsComponent {
+export default class HeroDetailsComponent {
   @Input() hero!: Hero;
 }
 ```

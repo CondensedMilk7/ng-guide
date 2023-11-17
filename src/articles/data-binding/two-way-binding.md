@@ -22,13 +22,16 @@ sizer კომპონენტი მარტივი პრინციპ
 
 ```ts
 import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-sizer",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./sizer.component.html",
-  styleUrls: ["./sizer.component.css"],
+  styleUrl: "./sizer.component.css",
 })
-export class SizerComponent {
+export default class SizerComponent {
   @Input() size!: number | string;
   @Output() sizeChange = new EventEmitter<number>();
 

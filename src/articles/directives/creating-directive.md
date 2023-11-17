@@ -23,8 +23,9 @@ import { Directive } from "@angular/core";
 
 @Directive({
   selector: "[appHighlight]",
+  standalone: true,
 })
-export class HighlightDirective {
+export default class HighlightDirective {
   constructor() {}
 }
 ```
@@ -50,8 +51,9 @@ import { Directive, ElementRef, HostListener, Input } from "@angular/core";
 
 @Directive({
   selector: "[appHighlight]",
+  standalone: true,
 })
-export class HighlightDirective {
+export default class HighlightDirective {
   @Input() highlightColor: "blue" | "green" | "yellow" = "yellow";
 
   constructor(private elementRef: ElementRef) {}
@@ -73,16 +75,35 @@ export class HighlightDirective {
 მიებას მშობელი ელემენტიდან data binding-ით. `highlightColor`-ში რამდენიმე შესაძლო მნიშვნელობის
 ტიპი განსვსაზღვრეთ და წინასწარი ფერიც დავუწერეთ.
 
-კონსტრუქტორში შემოგვაქვს `ElementRef`, რომელიც იმ native ელემენტზე გვაძლევს წვდომას, რომელზეც
-ეს დირექტივი იჯდება. მას host ელემენტი ჰქვია. მისი საშუალებით `HostListener` ებში გარკვეული მოვლენების
+კონსტრუქტორში შემოგვაქვს `ElementRef`, იგი იმ native ელემენტზე გვაძლევს წვდომას, რომელზეც
+ეს დირექტივი იჯდება. მას host ელემენტი ჰქვია. `ElementRef`-ის საშუალებით `HostListener`-ებში გარკვეული მოვლენების
 მიხედვით ვცვლით ამ ელემენტში CSS თვისებას - `color` (რაც დიდად ჩვეულებრივი ჯავასკრიპტისგან არ განსხვავდება).
 
-`HostListener` არის დეკორატორი, საშუალებას გვაძლევს მოვუსმინოთ ივენთებს host ელემენტზე. `HostListener`
+`HostListener` არის დეკორატორი, რომელიც საშუალებას გვაძლევს, მოვუსმინოთ ივენთებს host ელემენტზე. `HostListener`
 გამოიყენება კომპონენტის კლასებშიც, თუმცა უფრო ხშირად ის დირექტივებში გვხვდება.
 `mouseover` მოვლენის შემთხვევაში ელემენტს ჩვენთვის სასურველი ფერი მიენიჭება,
 ხოლო როცა მაუსი მის არეალს დატოვებს, ფერი საწყის მდგომარეობას დაუბრუნდება.
 
-`AppComponent`-ში შევქმნათ რამდენიმე `h1` ელემენტი დირექტივის შესამოწმენლად:
+`HilightDirective` არის standalone ტიპის დირექტივი, რაც იმას ნიშნავს, რომ მის გამოსაყენებლად საჭიროა
+ამ კლასის დამატება კომპონენტის იმპორტების სიაში. ჩვენ ამ დირექტივს `AppComponent`-ში ვიყენებთ.
+
+```ts
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HighlightDirective } from "./highlight.directive";
+
+@Component({
+  // ...
+  standalone: true,
+  imports: [CommonModule, HighlightDirective],
+  // ...
+})
+export default class AppComponent {}
+```
+
+ყველა კომპონენტში, სადაც ამ დირექტივის გამოყენება დაგვჭირდება, მისი ასეთი პრინციპით დაიმპორტება იქნება საჭირო.
+
+იმავე კომპონენტის თემფლეითში შევქმნათ რამდენიმე `h1` ელემენტი დირექტივის შესამოწმენლად:
 
 ```html
 <h1 appHighlight>I love Angular 1</h1>

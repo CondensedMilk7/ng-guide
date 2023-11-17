@@ -15,8 +15,14 @@ app.component.ts ახლა ასე გმაოიყურება:
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HeroListComponent } from "./hero-list.component";
+import { HeroDetailsComponent } from "./hero-details.component";
+
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule, HeroListComponent, HeroDetailsComponent],
   template: `
     <div class="container">
       <app-hero-list></app-hero-list>
@@ -39,7 +45,7 @@ import { Component } from "@angular/core";
     `,
   ],
 })
-export class AppComponent {}
+export default class AppComponent {}
 ```
 
 აქ არანაირი ლოგიკა აღარ გვექნება, სანაცვლოდ გმირებზე ლოგიკას გავიტანთ სერვისში.
@@ -109,7 +115,12 @@ import { HeroService } from './hero.service.ts'
 })
 ```
 
-ამ შემთხვევაში ჩვენ`{providedIn: 'root'}`-ს დავტოვებთ.
+ასე ანგულარი `HeroService`-ის უნიკალურ ინსტანციას შექმნის
+_მხოლოდ `AppComponent`-ისთვის_.
+
+ამ შემთხვევაში ჩვენ`{providedIn: 'root'}`-ს დავტოვებთ. ანუ ეს
+სერვისი იქნება ე.წ "Singleton" სერვისი, სადაც მისი ერთი ინსტანცია
+იქნება ხელმისაწვდომი მთელი აპლიკაციისთვის.
 
 გმირების მასივს ახლა ჩვენ აქ შევინახავთ და ასევე გმირის არჩევის ლოგიკასაც.
 სერვისში ვქმნით `pickedHero$` თვისებას. ეს არის BehaviorSubject-ის ინსტანცია,
@@ -138,10 +149,13 @@ import { HeroService } from './hero.service.ts'
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/core";
 import { HeroService } from "../hero.service";
 
 @Component({
   selector: "app-hero-list",
+  standalone: true,
+  imports: [CommonModule],
   template: `
     <h2>Pick the hero</h2>
     <ul>
@@ -164,12 +178,26 @@ import { HeroService } from "../hero.service";
     `,
   ],
 })
-export class HeroListComponent {
+export default class HeroListComponent {
   constructor(public heroService: HeroService) {}
 }
 ```
 
-თვისება იმიტომ არის public,
+დაინჯექთების ალტერნატიული ვარიანტი არის `inject` ფუნქციის გამოყენება
+`@angular/core`-დან:
+
+```ts
+import { inject } from "@angular/core";
+/* ... */
+export default class HeroListComponent {
+  public heroService = inject(HeroService);
+}
+```
+
+ხშირად ეს ფუნქციის გამოყენება უფრო მოკლე და მარტივი გზაა (განსაკუთრებით injection token-ების დროს),
+თუმცა ეს დეველოპერის გემოვნებაზეა დამოკიდებული. თქვენ ის მეთოდი გამოიყენეთ, რომელიც მოგესურვებათ.
+
+`heroService` თვისება იმიტომ არის public,
 რომ იგი ხელმისაწვდომი იყოს კლასის გარეთ, კერძოდ თემფლეითში, სადაც პირდაპირ
 სერვისიდან ვიღებთ გმირების მასივს და მას თეფლეითში განვათავსებთ. დაკლიკების
 ივენთზე ჩვენ სერვისზე არსებულ `pickHero` მეთოდს დავუძახებთ.
@@ -180,11 +208,14 @@ export class HeroListComponent {
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { HeroService } from "../hero.service";
 import { Hero } from "../types/hero";
 
 @Component({
   selector: "app-hero-details",
+  standalone: true,
+  imports: [CommonModule],
   template: `
     <div *ngIf="hero">
       <h2>{{ hero.name }}</h2>
@@ -192,8 +223,8 @@ import { Hero } from "../types/hero";
     </div>
   `,
 })
-export class HeroDetailsComponent {
-  hero!: Hero;
+export default class HeroDetailsComponent {
+  hero: Hero | null = null;
   constructor(private heroService: HeroService) {
     this.heroService.pickedHero$.subscribe((hero) => {
       this.hero = hero;
@@ -206,7 +237,7 @@ export class HeroDetailsComponent {
 ასე ფაქტობრივად მნიშვნელობების ნაკადს "გამოვიწერთ" და ამ ნაკადში ყოველ
 ახალ მნიშვნელობაზე ამ ფუნქციაში ჩაწერილი ქოლბექი გააქტიურდება, სადაც ჩვენ
 ახალი გმირის მნიშვნელობას მივიღებთ. ჩვენ ამ მიღებულ `hero`-ს ვუტოლებთ ჩვენს
-კლასში არსებულ `hero`-ს, რომლის დეტალებიც ტემფლეითში გამოისახება.
+კლასში არსებულ `hero`-ს, რომლის დეტალებიც თემფლეითში გამოისახება.
 
 შევაჯამოთ აქ რა ხდება:
 
@@ -226,4 +257,5 @@ export class HeroDetailsComponent {
 სიისა და არჩეული გმირის შესახებ ინფორმაციის აღება ან მასზე რეაგირება.
 
 ანგულარის უნიკალურობა სწორედ ამაში მდგომარეობს, dependency injection მისი უდიდესი
-პლიუსია.
+პლიუსია. DI-ით უფრო მეტი საინტერესო რაღაცების გაკეთება შეიძლება,
+[გაეცანით ოფიციალურ დოკუმენტაციას](https://angular.dev/guide/di).

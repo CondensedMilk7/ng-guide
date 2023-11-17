@@ -22,7 +22,8 @@
 
   --scrllbar-thicc: 8px;
 
-  --font-family: "DM Mono", "Noto Sans Georgian", monospace;
+  --font-monospace: "DM Mono", "Noto Sans Georgian", monospace;
+  --font-default: Arial, Helvetica, "Noto Sans Georgian", sans-serif;
 }
 
 * {
@@ -31,15 +32,10 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-padding-top: 4rem;
-}
-
 body {
-  font-family: var(--font-family);
+  font-family: var(--font-default);
   background-color: var(--bg-dark);
   color: var(--fg-dark);
-  scroll-behavior: smooth;
 }
 
 .search-dialog {
