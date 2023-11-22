@@ -17,6 +17,7 @@
   - [დირექტივის შექმნა](/directives/creating-directive.html)
   - [ატრიბუტის დირექტივები](/directives/attribute-directives.html)
   - [სტრუქტურული დირექტივები](/directives/structural-directives.html)
+- [Control Flow](/control-flow/index.html)
 - [Pipes](/pipes/index.html)
   - [ჩაშენებული ფაიფები](/pipes/built-in-pipes.html)
   - [ფაიფის შექმნა](/pipes/creating-pipe.html)

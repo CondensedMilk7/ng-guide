@@ -31,6 +31,12 @@ article h3 {
   scroll-margin-top: 4rem;
 }
 
+article h1 code,
+article h2 code,
+article h3 code {
+  font-size: inherit;
+}
+
 article p {
   margin: 1rem 0;
 }
