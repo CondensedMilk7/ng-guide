@@ -74,6 +74,7 @@
 
 ### ბონუსები
 
+- [სიგნალები](/signals/index.html)
 - [HostListener](/at-host/index.html)
 - [TypeScript-ის მოკლე შესავალი](/typescript/index.html)
   - [ინსტალაცია და გამოყენება](/typescript/tsc.html)
