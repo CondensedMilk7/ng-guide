@@ -35,6 +35,7 @@ article h1 code,
 article h2 code,
 article h3 code {
   font-size: inherit;
+  font-weight: 400;
 }
 
 article p {
@@ -88,12 +89,18 @@ code {
   font-size: 0.95rem;
   font-family: var(--font-monospace);
   background-color: #222331;
+  color: var(--inline-code-clr);
   padding: 0 4px;
   border-radius: 4px;
 }
 
+a > code {
+  color: inherit;
+}
+
 .light code:not(.hljs) {
   background-color: var(--code-bg-light);
+  color: inherit;
 }
 
 blockquote {
