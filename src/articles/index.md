@@ -1,10 +1,10 @@
 ---
-title: "ამ წიგნის შესახებ"
+title: "ანგულარის ქართული გზამკვლევი"
 ---
 
-<img src="./assets/ng-logo.gif" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
+<img src="./assets/ng-logo.png" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
 
-# ამ წიგნის შესახებ
+# ანგულარის ქართული გზამკვლევი
 
 ეს წიგნი არის Angular ფრეიმვორქის არაოფიციალური სახელმძღვანელო, სადაც
 შესაძლებელია გაეცნოთ ფრეიმვორქის ძირითად კონცეფციებს, ტექნიკებსა და პრაქტიკის

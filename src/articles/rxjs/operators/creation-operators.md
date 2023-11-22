@@ -20,10 +20,13 @@ title: "Creation Operators"
 
 ```ts
 import { Component, OnInit } from "@angular/core";
-import { Subscription, fromEvent } from "rxjs";
+import { CommonModule } from "@angular/common";
+import { fromEvent } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -46,15 +49,18 @@ export class AppComponent implements OnInit {
 სტრიმის შექმნა. არგუმენტად ეს ოპერატორი სწორედ ასეთ მონაცემებს იღებს.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { from } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   // emit array as a sequence of values
   numbers$ = from([1, 2, 3, 4, 5]);
 
@@ -62,8 +68,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // listen to the emission and log each value
     this.numbers$.subscribe((val) => console.log(val));
   }
-
-  ngOnDestroy(): void {}
 }
 ```
 
@@ -79,15 +83,18 @@ export class AppComponent implements OnInit, OnDestroy {
 რომელიც მას არგუმენტად მიეწოდება.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { of } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   //emits values of any type
   values$ = of({ name: "Brian" }, [1, 2, 3], function hello() {
     return "Hello";
@@ -97,8 +104,6 @@ export class AppComponent implements OnInit, OnDestroy {
     //output: {name: 'Brian'}, [1,2,3], function hello() { return 'Hello' }
     this.values$.subscribe((val) => console.log(val));
   }
-
-  ngOnDestroy(): void {}
 }
 ```
 

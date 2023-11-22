@@ -36,7 +36,7 @@ import { CommonModule } from "@angular/common";
   `,
   ,
 })
-export default class AppComponent {
+export class AppComponent {
   imgData = {
     src: "https://angular.io/assets/images/logos/angular/angular.svg",
     alt: "Angular Logo",

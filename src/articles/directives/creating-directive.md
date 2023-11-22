@@ -25,7 +25,7 @@ import { Directive } from "@angular/core";
   selector: "[appHighlight]",
   standalone: true,
 })
-export default class HighlightDirective {
+export class HighlightDirective {
   constructor() {}
 }
 ```
@@ -53,7 +53,7 @@ import { Directive, ElementRef, HostListener, Input } from "@angular/core";
   selector: "[appHighlight]",
   standalone: true,
 })
-export default class HighlightDirective {
+export class HighlightDirective {
   @Input() highlightColor: "blue" | "green" | "yellow" = "yellow";
 
   constructor(private elementRef: ElementRef) {}
@@ -98,7 +98,7 @@ import { HighlightDirective } from "./highlight.directive";
   imports: [CommonModule, HighlightDirective],
   // ...
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 ყველა კომპონენტში, სადაც ამ დირექტივის გამოყენება დაგვჭირდება, მისი ასეთი პრინციპით დაიმპორტება იქნება საჭირო.

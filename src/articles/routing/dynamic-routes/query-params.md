@@ -8,7 +8,7 @@ title: "QueryParams"
 განსხვავდება Query პარამეტრებისგან. მისი საშუალებით
 შეგვიძლია აპლიკაციის სთეითი, იგივე მდგომარეობა შევინახოთ
 მისამართში. ამ მაგალითში განვიხილავთ როგორ შეგვიძლია
-პროდუქტების გაფილტვრის მეთოდი შევინახოთ QueryParams-ში.
+პროდუქტების სორტირების მიმართულება შევინახოთ QueryParams-ში.
 
 ჩვენ ფაქტობრივად წინა თავის იდენტური აპლიკაცია გვაქვს, თუმცა
 ყურადღებას მხოლოდ ერთ კომპონენტს მივაქცევთ: `ProductsComponent`
@@ -17,27 +17,84 @@ title: "QueryParams"
 სერვისში ინახება პროდუქტების მასივი, რომლებსაც გააჩნიათ აიდი, სახელი, აღწერა,
 სურათი და ფასი. აქვე არსებობს მეთოდი ამ პროდუქტების მისაღებად.
 
+```ts
+import { Injectable } from "@angular/core";
+import { Product } from "./product.model";
+
+@Injectable({
+  providedIn: "root",
+})
+export class ProductsService {
+  private products: Product[] = [
+    {
+      id: 0,
+      name: "Lenovo ThinkPad T14",
+      price: 899,
+      description:
+        'Gen 2 14" FHD (Intel 4-Core i5-1135G7, 16GB RAM, 512GB SSD, UHD Graphics) IPS Business Laptop, Backlit, Fingerprint, 2 x Thunderbolt 4, Webcam, 3-Year Warranty, Windows 11 Pro ',
+      image: "https://example.com",
+    },
+    {
+      id: 1,
+      name: "Dell XPS 13 9310",
+      price: 1200,
+      description:
+        "Touchscreen Laptop - 13.4-inch UHD+ Display, Thin and Light, Intel Core i5-1135G7, 8GB LPDDR4x RAM, 512GB SSD, Intel Iris Xe, Killer Wi-Fi 6 with Dell Service, Win 11 Home - Silver ",
+      image: "https://example.com",
+    },
+    {
+      id: 2,
+      name: 'HP Envy 17.3"',
+      price: 1246,
+      description:
+        "FHD Touchscreen Laptop, Intel Core i7-1165G7, 64GB RAM, 2TB SSD, Backlit Keyboard, Intel Iris Xe Graphics, Fingerprint Reader, Webcam, Windows 11 Pro, Silver, 32GB USB Card ",
+      image: "https://example.com",
+    },
+  ];
+
+  getAllProducts() {
+    return this.products;
+  }
+
+  getProductById(id: number) {
+    return this.products.find((product) => product.id === id);
+  }
+}
+```
+
+პროდუქტის ინტერფეისი `product.model.ts`-ში ასე გამოიყურება:
+
+```ts
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+}
+```
+
 როუთინგი კონფიგურირებული გვაქვს, რომ თავიდანვე `/products` გვერდზე გადავიდეთ
 და გავხსნათ `ProductsComponent`. ეს კომპონენტი ასე გამოიყურება:
 
 ```ts
-import { Component, OnInit } from "@angular/core";
-import { Product } from "../product.model";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ProductsService } from "../products.service";
+import { RouterLink } from "@angular/router";
+import { Product } from "../product.model";
 
 @Component({
   selector: "app-products",
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: "./products.component.html",
-  styleUrls: ["./products.component.css"],
+  styleUrl: "./products.component.css",
 })
-export class ProductsComponent implements OnInit {
-  products: Product[] = [];
+export class ProductsComponent {
+  products: Product[] = this.productsService.getAllProducts();
 
   constructor(private productsService: ProductsService) {}
-
-  ngOnInit(): void {
-    this.products = this.productsService.getAllProducts();
-  }
 }
 ```
 
@@ -45,7 +102,7 @@ export class ProductsComponent implements OnInit {
 კომპონენტში ვინახავთ.
 ამ პროდუქტებს უბრალოდ თემფლეითში განვათავსებთ:
 
-```ts
+```html
 <div class="container">
   <ul>
     <li class="product" *ngFor="let product of products">
@@ -56,45 +113,39 @@ export class ProductsComponent implements OnInit {
     </li>
   </ul>
 </div>
-
 ```
 
-შევქმნათ ინფუთი, რომლის საშუალებითაც ავირჩევთ გაფილტვრის მეთოდს.
-ამისთვის `FormsModule` დავაიმპორტოთ `AppModule`-ში:
+ჩვენი მიზანია, რომ მომხმარებელს პროდუქტების გაფილტვრის საშუალება მივცეთ.
 
-```ts
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { ProductsComponent } from "./products/products.component";
-import { ProductDetailsComponent } from "./product-details/product-details.component";
-import { FormsModule } from "@angular/forms";
-
-@NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductDetailsComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
-
-`ProductsComponent`-ში დავამატოთ შემდეგი თვისებები :
+`ProductsComponent`-ში დავამატოთ შემდეგი თვისებები:
 
 ```ts
   sortBy: 'cheapest' | 'expensive' = 'cheapest';
   sortOptions = ['cheapest', 'expensive'];
 ```
 
-ეს იქნება სორტირების მეთოდები: ჯერ იაფი პროდუქტები გამოჩნდეს
+ეს იქნება სორტირების მიმართულებები: ჯერ იაფი პროდუქტები გამოჩნდეს
 თუ ძვირი. თავდაპირველად სორტირება `cheapest`-ზე იქნება.
 ასევე გვინდა სორტირების ვარიანტების მასივი, რომლითაც
 ფორმას ავაგებთ.
 
+კომპონენტის იმპორტებში შემოვიტანოთ `FormsModule` რათა ფორმების
+გამოყენება შევძლოთ:
+
+```ts
+import { FormsModule } from "@angular/forms";
+
+@Component({
+  imports: [/* ... */ FormsModule],
+})
+```
+
 ახლა უბრალოდ შევქმნათ `select` ელემენტი `NgModel` დირექტივით,
-რომელსაც დავაკავშირებთ `sortBy` თვისებასთან. `NgFor` დირექტივით
+რომელსაც დავაკავშირებთ `sortBy` თვისებასთან.
+`ngModelChange` არის ივენთი, რომელსაც ფორმის ელემენტი დააემითებს,
+როცა მასში მომხმარებელი რამეს შეცვლის. ამ დროს გვინდა `changeSort`
+მეთოდით რეაგირება, რომელსაც ტაიპსკრიპტის ნიმუშში ვნახავთ.
+`NgFor` დირექტივით
 სორტირების ვარიანტები განვათავსოთ და მათი მნიშვნელობები მივაბათ
 ელემენტს. ასევე ის ინტერპოლაციით გამოვსახოთ. დაკლიკებაზე უნდა
 გააქტიურდეს მეთოდი, რომლითაც სორტირება მოხდება.
@@ -102,12 +153,12 @@ export class AppModule {}
 ```html
 <div class="container">
   <label for="sort-select">Sort by</label>
-  <select id="sort-select" [(ngModel)]="sortBy">
-    <option
-      *ngFor="let sortOption of sortOptions"
-      [value]="sortOption"
-      (click)="changeSort()"
-    >
+  <select
+    id="sort-select"
+    [ngModel]="sortBy"
+    (ngModelChange)="changeSort($event)"
+  >
+    <option *ngFor="let sortOption of sortOptions" [value]="sortOption">
       {{ sortOption }}
     </option>
   </select>
@@ -127,17 +178,22 @@ export class AppModule {}
 მისამართში query პარამეტრები და ჩვენ შემდგომ მასზე უნდა ვირეაგიროთ.
 
 ```ts
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Product } from "../product.model";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ProductsService } from "../products.service";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { Product } from "../product.model";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-products",
+  standalone: true,
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: "./products.component.html",
-  styleUrls: ["./products.component.css"],
+  styleUrl: "./products.component.css",
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
   sortBy: "cheapest" | "expensive" = "cheapest";
   sortOptions = ["cheapest", "expensive"];
   products: Product[] = [];
@@ -146,19 +202,18 @@ export class ProductsComponent implements OnInit {
     private productsService: ProductsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams) => {
-      const unsortedProducts = this.productsService.getAllProducts();
-      const sortBy = queryParams["sortBy"];
-      this.sortBy = sortBy;
-      this.products = this.sortProducts(unsortedProducts, sortBy);
-    });
+  ) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed())
+      .subscribe((queryParams) => {
+        const unsortedProducts = this.productsService.getAllProducts();
+        const sortBy = queryParams["sortBy"];
+        this.sortBy = sortBy;
+        this.products = this.sortProducts(unsortedProducts, sortBy);
+      });
   }
 
   sortProducts(products: Product[], sortBy: "cheapest" | "expensive") {
-    console.log("sorting!");
     if (sortBy === "cheapest") {
       return products.sort((a, b) => a.price - b.price);
     } else {
@@ -166,9 +221,9 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  changeSort() {
+  changeSort(newSortBy: string) {
     this.router.navigate(["products"], {
-      queryParams: { sortBy: this.sortBy },
+      queryParams: { sortBy: newSortBy },
     });
   }
 }
@@ -184,25 +239,28 @@ export class ProductsComponent implements OnInit {
 პარამეტრებში მისამართის სტრინგად.
 
 აქ ჩენ შევქმენით `sortBy` პარამეტრი, რომლის მნიშვნელობაც იქნება მომხმარებლის
-მიერ არჩეული სორტირების მეთოდი. მისამართში ეს გამოჩნდება, როგორც
+მიერ არჩეული სორტირების მიმართულება. მისამართში ეს გამოჩნდება, როგორც
 `/products?sortBy=cheap`.
 
-შემდეგ ჩვენ გვინდა ამ რაუთის ცვლილებაზე რეაგირება. სწორედ ამიტომ NgOnInit-ში
+შემდეგ ჩვენ გვინდა ამ რაუთის ცვლილებაზე რეაგირება. სწორედ ამიტომ `constructor`-ში
 ვიყენებთ დაინჯექთებულ `ActivatedRoute`-ს, რათა დავასუბსქრაიბოთ მასში არსებულ
 `queryParams`-ზე. ჩვენ პროდუქტების სიას ვინახავთ ლოკალურ ცვლადში და ასევე
 `queryParams`-იდან ვიღებთ ქოლბექში ხელმისაწვდომ პარამეტრების ობიექტს.
 აქ ჩვენი შექმნილი პარამეტრის მნიშვნელობა შეგვიძლია ავიღოთ - `sortBy`.
 ჩვენ ამ სორტირების ვარიანტს კლასის თვისებაში ვანახლებთ, რათა
 გვერდის დარეფრეშებაზე ფორმაში ისევ სწორი ვარიანტი იყოს არჩეული.
-რაც მთავარია, ახლა სორტირების მეთოდის მიხედვით ვასორტირებთ
+რაც მთავარია, ახლა სორტირების მიმართულების მიხედვით ვასორტირებთ
 პროდუქტებს და მათ კლასის თვისებაში ვინახავთ.
 სორტირებას ვაკეთებთ `sortProducts` ფუნქციით. აქ პროდუქტებს და სორტირების
-მეთოდს ვიღებთ და ამის მიხედვით სათანადოდ სორტირებულ პროდუქტებს ვაბრუნებთ.
+მიმართულებას ვიღებთ და ამის მიხედვით სათანადოდ სორტირებულ პროდუქტებს ვაბრუნებთ.
+
+ზემოთხსენებული ლოგიკის გაშვება `ngOnInit`-შიც არის შესაძლებელი, თუმცა
+`takeUntilDestroyed`-ის მარტივად გამოსაყენებლად იგივეს გაკეთება კონსტრუქტორშიც შეიძლება.
 
 ყოველ ნავიგაციაზე `queryParams`-ის საბსქრიფშენშში არსებული მეთოდი
 აქტიურდება და ანახლებს:
 
-- მიმდინარე სორტირების მეთოდს: `this.sortBy`,
+- მიმდინარე სორტირების მიმართულება: `this.sortBy`,
 - პროდუქტების მასივს ამ სორტირების მიხედვით: `this.products`.
 
 შედეგად შეგვიძლია პროდქტების სორტირება `queryParams`-ით.
@@ -213,7 +271,7 @@ export class ProductsComponent implements OnInit {
 
 ამ თავში ჩვენ ვისწავლეთ კლასში `Router`-ის გამოყენება
 `queryParams`-ით და `ActivatedRoute`-ზე `queryParams`-ის
-ცვლილებებზე რეაგირება. ჩვენ მომხმარებლის მიერ სორტირების მეთოდის
+ცვლილებებზე რეაგირება. ჩვენ მომხმარებლის მიერ სორტირების მიმართულების
 შეცვლის საფუძველზე ვახორციელებთ ნავიგაციას განახლებული `queryParams`-ით.
 `queryParams`-ის ცვლილებას ამავე კომპონენტში ვუსმენთ და სათანადოდ
-ვრეაგირებთ: ვანახლებთ სორტირების მეთოდს და ვასორტირებთ პროდუქტების სიას.
+ვრეაგირებთ: ვანახლებთ სორტირების მიმართულებას და ვასორტირებთ პროდუქტების სიას.

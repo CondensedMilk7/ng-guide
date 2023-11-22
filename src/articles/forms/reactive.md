@@ -26,7 +26,7 @@ import { ReactiveFormsModule, FormControl } from "@angular/forms";
   templateUrl: "./signup-form.component.html",
   styleUrl: "./signup-form.component.css",
 })
-export default class SignupFormComponent {
+export class SignupFormComponent {
   name = new FormControl("");
 }
 ```
@@ -70,7 +70,7 @@ import { ReactiveFormsModule, FormControl } from "@angular/forms";
   templateUrl: "./signup-form.component.html",
   styleUrl: "./signup-form.component.css",
 })
-export default class SignupFormComponent {
+export class SignupFormComponent {
   private fb = inject(FormBuilder);
 
   signupForm = this.fb.group({
@@ -213,7 +213,7 @@ export default class SignupFormComponent {
 გამოვიყენოთ, მაგრამ რადგან `FormBuilder` გვაქვს, მისი მეთოდი გამოვიყენოთ.
 
 ```ts
-export default class SignupFormComponent {
+export class SignupFormComponent {
   private fb = inject(FormBuilder);
 
   signupForm = this.fb.group({

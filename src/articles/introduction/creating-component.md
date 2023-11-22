@@ -20,7 +20,7 @@ title: "კომპონენტის შექმნა და კონფ
 
 example.component.ts
 example.component.html
-example.component.scss
+example.component.css
 ```
 
 ახალი კომპონენტის შემოტანა ასეთი ფაილების ხელით შექმნით შეიძლება, ან უბრალოდ CLI-ში ბრძანების გაშვებით:
@@ -35,7 +35,7 @@ child იქნება ის სახელი, რომელსაც კ
 გამოიყოფა `component` ფაილების დასახელებაში. html ფაილში ჩვენ ვწერთ მარკაპს.
 ანგულარის CLI-იმ წინასწარ თემფლეითში ჩაგვისვა ტექსტი, რომელიც კომპონენტის სადმე
 განთავსების შემთხვევაში უნდა გამოჩნდეს.
-scss ფაილში ვწერთ ამ კომპონენტის სტილებს, ხოლო ts ფაილში კომპონენტის ლოგიკას.
+`.css` ფაილში ვწერთ ამ კომპონენტის სტილებს, ხოლო `.ts` ფაილში კომპონენტის ლოგიკას.
 როგორ არის ეს ყველაფერი ერთმანეთთან დაკავშირებული?
 
 ტაიპსკრიპტის ფაილში ვხედავთ, რომ დაესქპორტებულია კომპონენტის კლასი, რომელსაც
@@ -55,9 +55,9 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./child.component.html",
-  styleUrl: "./child.component.scss",
+  styleUrl: "./child.component.css",
 })
-export default class ChildComponent {}
+export class ChildComponent {}
 ```
 
 `selector` არის ის თეგი, რომლითაც ამ კომპონენტს თემფლეითში განვათავსებთ.
@@ -91,30 +91,6 @@ export default class ChildComponent {}
 კონფიგურაციაში `templateUrl` მიუთითებს იმ მისამართზე, სადაც თემფლეითის ფაილი
 უნდა იყოს. `styleUrl`, შესაბამისად, მიუთითებს სტილების ფაილის მისამართზე.
 
-<!-- თუმცა კომპონენტის არსებობა
-მისთვის ცნობილი არ იქნებოდა, ამ კომპონენტის ფაილების შექმნისას, ტაიპსკრიპტის
-ფაილში დაექსპორტებული (და დეკორატორით გონფიგურირებული) კლასი `app.module.ts`-ში
-რომ არ შეგვეტანა, დეკლარაციების მასივში.
-
-```ts
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-
-import { AppComponent } from "./app.component";
-import { ChildComponent } from "./child/child.component";
-
-@NgModule({
-  declarations: [AppComponent, ChildComponent],
-  imports: [BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
-
-ეს ანგულარის CLI-იმ ჩვენ მაგივრად გააკეთა, თუმცა თუ კომპონენტის ფაილებს ხელით ვქმნით,
-მისი მოდულის ფაილში დაიმპორტება და დეკლარაციების მასივში დამატება არ უნდა დაგვავიწყდეს. -->
-
 აღსანიშნავია, რომ `@Component` დეკორატორში `templateUrl`-ის მაგივრად შეგვიძლია გამოვიყენოთ
 `template` და მარკაპი პირტაპირ ამ თვისების მნიშვნელობაში ჩავწეროთ, როგორც სტრინგი:
 
@@ -123,7 +99,7 @@ export class AppModule {}
   selector: 'app-child',
   standalone: true,
   template: `<h1>Hello from ChildComponent!</h1>`,
-  styleUrl: "./child.component.scss",
+  styleUrl: "./child.component.css",
 })
 ```
 
@@ -146,3 +122,5 @@ export class AppModule {}
 თეგებს განვათავსებთ) DOM-ში ამ კომპონენტს ჩასვამს სათანადო ფუნქციონალით.
 `@Component` დეკორატორის დანიშნულება ამით არ ამოიწურება. მის შესახებ დეტალური ინფორმაციისთვის
 [გაეცანით ოფიციალურ დოკუმენტაციას](https://angular.io/api/core/Component).
+
+ახლა ვნახოთ, [როგორ მუშაობს მარტივი რეაქტიულობა ანგულარში](./interpolation-data-binding.html)!

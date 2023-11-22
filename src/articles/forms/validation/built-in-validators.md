@@ -20,7 +20,7 @@ import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
   templateUrl: "./signup-form.component.html",
   styleUrls: "./signup-form.component.css",
 })
-export default class SignupFormComponent {
+export class SignupFormComponent {
   signupForm = this.fb.group({
     name: [""],
     email: [""],

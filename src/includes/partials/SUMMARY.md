@@ -65,6 +65,7 @@
 
 ### Advanced
 
+- [NgModule](/ng-modules/index.html)
 - [ინტერნაციონალიზაცია](/internationalization/index.html)
   - [angular i18n](/internationalization/angular-i18n.html)
   - [ngx-translate](/internationalization/ngx-translate.html)

@@ -23,7 +23,7 @@ import { CommonModule } from "@angular/core";
   standalone: true,
   imports: [CommonModule],
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 `NgClass`-ის პრიმიტიული მაგალითი:
@@ -57,7 +57,7 @@ import { NgClass } from "@angular/common";
 @Component({
   imports: [NgClass]
 })
-export default class AppComponent
+export class AppComponent
 ```
 
 გაითვალისწინეთ, რომ ეს შესაძლებელია მხოლოდ standalone ტიპის დირექტივებზე (მაგ. `NgModel`
@@ -77,7 +77,7 @@ import { FormsModule } from "@angular/forms";
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 `NgModel` ფორმის ელემენტებზე გამოიყენება two way binding-ით.

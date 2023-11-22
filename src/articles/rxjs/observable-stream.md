@@ -15,10 +15,13 @@ rxjs-ს თავისი ალტერნატივა აქვს. ე�
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { fromEvent } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -43,10 +46,13 @@ export class AppComponent implements OnInit {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Subscription, fromEvent } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -103,10 +109,13 @@ myObservable.subscribe({
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Subscription, fromEvent } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -144,10 +153,13 @@ subscription-ის ინსტანცია შეიძლება მა�
 
 ```ts
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Subscription, fromEvent } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -179,4 +191,4 @@ export class AppComponent implements OnInit, OnDestroy {
 
 RxJS-ის პლიუსი ის არის, რომ შეგვიძლია სტრიმების მრავალფეროვნად მანიპულაცია,
 მათი გაცემული მნიშვნელობების გარდაქმნა და სხვადასხვა სტრიმების გარკვეული
-გზებით კომბინაცია. ამისთვის ჩვენ ოპერატორებს ვიყენებთ.
+გზებით კომბინაცია. ამისთვის ჩვენ [ოპერატორებს](./operators/) ვიყენებთ.

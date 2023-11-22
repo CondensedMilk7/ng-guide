@@ -59,15 +59,16 @@ template-driven ფორმები ეყრდნობიან `FormsModul
 ```ts
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-hero-form",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: "./hero-form.component.html",
   styleUrl: "./hero-form.component.css",
 })
-export default class HeroFormComponent {
+export class HeroFormComponent {
   friends = ["Tariel", "Avtandil", "Nuradin-Pridon"];
   heroData = {
     name: "",
@@ -207,7 +208,7 @@ export default class HeroFormComponent {
 ისნტანციას ვინახავთ, რომელსაც გარკვეული თვისებები გააჩნია. თუ კონტროლი არავალიდურია, ჩვენ
 გვინდა რომ თითოეული ველის ქვეშ ამის შესახებ მინიშნება გამოჩნდეს. მაგრამ ეს მინიშნება არ გვინდა,
 რომ თავიდანვე ხილვადი იყოს, ფორმა კი თავიდან არავალიდურია. სწორედ ამიტომ ასევე ვიყენებთ
-`pristine` ცვლადს. ეს მიშმავს, რომ მომხმარებელს ჯერ არეფერი შეუყვანია ველში. ჩვენ
+`pristine` ცვლადს. ეს ნიშნავს, რომ მომხმარებელს ჯერ არეფერი შეუყვანია ველში. ჩვენ
 მინიშნება მაშინ გვინდა გამოვაჩინოთ, როცა კონტროლი არავალიდურია და მასში ცვლილება
 უკვე შეტანილი იყო. `pristine`-ის საპირისპირო თვისებაც არსებობს -- `dirty`, რომელიც შეგვიძლია
 გამოვიყენოთ ამ პირველის ნეგაციის მაგივრად.

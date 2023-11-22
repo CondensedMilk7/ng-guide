@@ -92,7 +92,7 @@ import { RouterOutlet } from "@angular/router";
   imports: [RouterOutlet],
   /* ... */
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 ახლა თავიდან ბრაუზერში არაფერი გამოჩნდება, მაგრამ თუ ხელით შევცვლით მისამართს
@@ -209,17 +209,21 @@ export const routes: Routes = [
 ჩავტვირთოთ ბრაუზერში, სანამ მომხმარებელი ამ კომპონენტისთვის საჭირო რაუთზე
 არ გადაინაცვლებს, ანუ ჩვენ შეგვიძლია კომპონენტების "ზარმაცად ჩატვირთვა".
 ამისთვის ვიყენებთ `loadComponent` თვისებას და ჯავასკრიპტის`import` ფუნქციით
-ვაიმპორტებთ სათანადო მისამართიდან კომპონენტს, რომელსაც ფრომისის ფორმით ვაბრუნებთ:
+ვაიმპორტებთ სათანადო მისამართიდან კომპონენტს, რომელსაც ფრომისის ფორმით ვაბრუნებთ.
+`import` ფუნქცია შემოიტანს ნეიმსფეისს, სადაც კომპონენტის კლასი მისი ერთ-ერთი თვისებაა, ამიტომ
+ამ კლასის გამოტანა მოგვიწევს `then` მეთოდით:
 
 ```ts
 export const routes: Routes = [
   {
     path: "first",
-    loadComponent: () => import("./first/first.component"),
+    loadComponent: () =>
+      import("./first/first.component").then((m) => m.FirstComponent),
   },
   {
     path: "second",
-    loadComponent: () => import("./second/second.component"),
+    loadComponent: () =>
+      import("./second/second.component").then((m) => m.SecondComponent),
   },
   { path: "", redirectTo: "first", pathMatch: "full" },
   { path: "**", component: NotFoundComponent },
@@ -229,20 +233,17 @@ export const routes: Routes = [
 ასე კომპონენტები მხოლოდ კონკრეტული მისამართების მიხედვით დაიმპორტდებიან.
 
 გასათვალისინებელია, თუ როგორ არის დაექსპორტებული კომპონენტის კლასი.
-ავტომატურად ანგულარის CLI-ით შექმნილი კომპონენტები იდაექსპორტებულია როგორც
-`default` კლასი:
+თუ ჩვენ კლასს დავაექსპორტებთ `default` ქივორდით:
 
 ```ts
 export default class FirstComponent {}
 ```
 
-თუ კლასი `default` ქივორდის გარეშეა დაექსპორტებული, მაშინ `import` ფუნქცია
-შემოიტანს ნეიმსფეისს, სადაც კომპონენტის კლასი მისი ერთ-ერთი თვისებაა, ამიტომ
-ამ კლასის გამოტანა მოგვიწევს "ზარმაცად ჩატვირთვის" დროს:
+მაშინ აღარ დაგვჭირდება `then` მეთოდი, რათა ნეიმსფეისიდან ამოვიღოთ კომპონენტის კლასი.
+`import`-ის დაბრუნებული შედეგი პირდაპირ ჩვენთვის სასურველი კლასი იქნება:
 
 ```ts
-loadComponent: () =>
-  import("./first/first-component").then((m) => m.FirstComponent);
+loadComponent: () => import("./first/first-component");
 ```
 
 ## შეჯამება

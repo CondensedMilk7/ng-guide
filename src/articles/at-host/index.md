@@ -49,13 +49,13 @@ import { CommonModule } from "@angular/common";
 @Component({
   selector: "app",
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
   template: ` <h1>
       Hello, you have pressed enter {{ counter }} number of times!
     </h1>
     Press enter key to increment the counter.`,
 })
-export default class AppComponent {
+export class AppComponent {
   counter = 0;
   @HostListener("window:keydown.enter")
   handleKeyDown() {

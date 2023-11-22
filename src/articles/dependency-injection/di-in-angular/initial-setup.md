@@ -53,7 +53,7 @@ import { HeroDetailsComponent } from "./hero-details.component";
     `,
   ],
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 აქ ყველა კომპონენტის მარკაპი, სტილები და ლოგიკა ერთ ფაილში გვაქვს მოქცეული.

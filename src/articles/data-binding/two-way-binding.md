@@ -31,7 +31,7 @@ import { CommonModule } from "@angular/common";
   templateUrl: "./sizer.component.html",
   styleUrl: "./sizer.component.css",
 })
-export default class SizerComponent {
+export class SizerComponent {
   @Input() size!: number | string;
   @Output() sizeChange = new EventEmitter<number>();
 

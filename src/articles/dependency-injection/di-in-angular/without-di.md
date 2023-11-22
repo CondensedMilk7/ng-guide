@@ -51,7 +51,7 @@ import { HeroDetailsComponent } from "./hero-details.component";
     `,
   ],
 })
-export default class AppComponent {
+export class AppComponent {
   heroes: Hero[] = [
     {
       name: "Tariel",
@@ -118,7 +118,7 @@ import { Hero } from "../types/hero";
     `,
   ],
 })
-export default class HeroListComponent {
+export class HeroListComponent {
   @Input() heroes!: Hero[];
   @Output() heroPicked = new EventEmitter<string>();
 }
@@ -146,7 +146,7 @@ import { Hero } from "../types/hero";
     </div>
   `,
 })
-export default class HeroDetailsComponent {
+export class HeroDetailsComponent {
   @Input() hero!: Hero;
 }
 ```

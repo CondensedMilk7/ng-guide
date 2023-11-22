@@ -30,7 +30,7 @@ import { CommonModule } from "@angular/core";
   templateUrl: "./child.component.html",
   styleUrl: "./child.component.scss",
 })
-export default class ChildComponent {
+export class ChildComponent {
   @Input() message: string = "";
 }
 ```

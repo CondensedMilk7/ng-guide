@@ -45,7 +45,7 @@ import { HeroDetailsComponent } from "./hero-details.component";
     `,
   ],
 })
-export default class AppComponent {}
+export class AppComponent {}
 ```
 
 აქ არანაირი ლოგიკა აღარ გვექნება, სანაცვლოდ გმირებზე ლოგიკას გავიტანთ სერვისში.
@@ -178,7 +178,7 @@ import { HeroService } from "../hero.service";
     `,
   ],
 })
-export default class HeroListComponent {
+export class HeroListComponent {
   constructor(public heroService: HeroService) {}
 }
 ```
@@ -189,7 +189,7 @@ export default class HeroListComponent {
 ```ts
 import { inject } from "@angular/core";
 /* ... */
-export default class HeroListComponent {
+export class HeroListComponent {
   public heroService = inject(HeroService);
 }
 ```
@@ -223,7 +223,7 @@ import { Hero } from "../types/hero";
     </div>
   `,
 })
-export default class HeroDetailsComponent {
+export class HeroDetailsComponent {
   hero: Hero | null = null;
   constructor(private heroService: HeroService) {
     this.heroService.pickedHero$.subscribe((hero) => {

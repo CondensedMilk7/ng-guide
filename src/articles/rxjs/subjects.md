@@ -16,14 +16,19 @@ unicast, ანუ ცხელი სტრიმები არიან წ�
 შეიძლება გააჩნდეს ერთზე მეტი კონსუმერი. ანუ საბჯექთით შეგვიძლია შევქმნათ
 ერთი სტრიმი, რომელსაც ბევრი სხვადასხვა ადგილიდან დავაკვირდებით.
 
+## ჩვეულებრივი Subject
+
 შევქმნათ ანგულარის საწყის აპლიკაციაში მარტივი საბჯექთი:
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Subject } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -56,10 +61,13 @@ export class AppComponent {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Subject } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -101,7 +109,7 @@ export class AppComponent implements OnInit {
 და ის იშვიათად თუ დაგჭირდებათ. მის შესახებ შეგიძლიათ თქვენით
 მოიძიოთ ინფორმაცია.
 
-# BehaviorSubject
+## BehaviorSubject
 
 `BehaviorSubject` არის იგივე საბჯექთი, თუმცა მას ჩვეულებრივი
 საბჯექთისგან ის განასხვავებს, რომ გააჩნია საწყისი მნიშვნელობა.
@@ -109,10 +117,13 @@ export class AppComponent implements OnInit {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
+import { CommonModule } from "@angular/common";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
