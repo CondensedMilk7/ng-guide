@@ -22,24 +22,17 @@ title: "HTTP მოთხოვნებთან მუშაობა"
 
 # HTTP Client
 
-გამოვიყენოთ ანგულარის მოდული, რომლითაც HTTP მოთხოვნებთან ვიმუშავებთ.
-
-ჩვენ მოდულში უნდა შემოვიტანოთ `HttpClientModule`:
+HTTP მოთხოვნებთან სამუშაოდ ვიყენებთ ანგულარში ჩაშენებულ პროვადერებს,
+რომლებიც უნდა აპლიკაციის პროვაიდერებში დავარეგისტრიროთ. `app.config.ts`-ში
+პროვაიდერების მასივში ვიყენებთ `provideHttpClient()`-ს `@angular/common/http`-დან.
 
 ```ts
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import { ApplicationConfig } from "@angular/core";
+import { provideHttpClient } from "@angular/common/http";
 
-import { AppComponent } from "./app.component";
-import { HttpClientModule } from "@angular/common/http";
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+export const appConfig: ApplicationConfig = {
+  providers: [/* ... */ provideHttpClient()],
+};
 ```
 
 ამ გაკვეთილში ბექენდის სიმულაციისთვის ვისარგებლებთ dummyjson.com-ით,
@@ -122,11 +115,14 @@ app.component.ts:
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { AddProduct, Product } from "./product.model";
 import { ProductsService } from "./products.service";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -231,11 +227,14 @@ export class ProductsService {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { AddProduct, Product } from "./product.model";
 import { ProductsService } from "./products.service";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
@@ -281,8 +280,8 @@ export class AppComponent implements OnInit {
     this.productsService
       .editProduct(updatedProduct)
       .subscribe((editedProduct) => {
-        // The API returns the same object unmodified
-        // A little problem with dummyjson.com
+        // dummyjson-ის API აბრუნებს იმავე არამოდიფიცირებულ ობიექტს,
+        // ამიტომ მას გარდავქმნით.
         this.products = this.products.map((product) =>
           product.id === editedProduct.id ? updatedProduct : product
         );

@@ -11,11 +11,14 @@ title: "ფაიფის შექმნა"
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  styleUrl: "./app.component.css",
 })
 export class AppComponent {
   filterKey = "";
@@ -65,6 +68,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: "myFilter",
+  standalone: true,
 })
 export class MyFilterPipe implements PipeTransform {
   transform(value: string[], filterKey: string): string[] {
@@ -81,18 +85,21 @@ export class MyFilterPipe implements PipeTransform {
 რაღაც სიტყვის მიხედვით და ამიტომ ჩვენ დავაბრუნებთ გაფილტრული სტრინგების მასივს,
 სადაც თითოეული ელემენტი (ლოუერქეისში) შეიცავს საფილტრო სიტყვას (ლოუერქეისში).
 
-დარწმუნდით, რომ ჩვენი ფაიფი დამატებულია შესაბამისი მოდულის დეკლარაციების სიაში,
-რათა ანგულარმა მისი არსებობის შესახებ იცოდეს:
+დარწმუნდით, რომ ჩვენი ფაიფი დამატებულია შესაბამისი კომპონენტის იმპორტების სიაში,
+რათა მისი გამოყენება შევძლოთ:
 
 ```ts
-// ...
+/* ... */
 import { MyFilterPipe } from "./my-filter.pipe";
 
-@NgModule({
-  declarations: [MyFilterPipe],
-// ...
+@Component({
+  selector: "app-root",
+  standalone: true,
+  imports: [CommonModule, MyFilterPipe],
 })
-// ...
+export class AppComponent {
+  /* ... */
+}
 ```
 
 ახლა შეგვიძლია ფილტრის გამოყენება:
@@ -112,5 +119,5 @@ import { MyFilterPipe } from "./my-filter.pipe";
 
 ### შეჯამება
 
-ამ თავში ჩვენ შევქმენით ფილტრის ფაიფი, რომლითაც ტექსტის მასიფი გავფილტრეთ
+ამ თავში ჩვენ შევქმენით ფილტრის ფაიფი, რომლითაც ტექსტის მასივი გავფილტრეთ
 `NgIf` დირექტივში, `input` ველში შეყვანილი ტექსტის მიხედვით.

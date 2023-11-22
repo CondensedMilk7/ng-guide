@@ -12,7 +12,7 @@ template-driven ფორმები ეყრდნობიან `FormsModul
 - `NgForm` - ქმნის ზედა დონის `FormGroup`-ის ინსტანციას და მას `<form>` ელემენტს აბამს, რათა თვალყური ადევნოს გაერთიანებული ფორმის მნიშვნელობასა და ვალიდაციის სტატუსს. როგორც კი ჩვენ `FormsModule`-ს ვაიმპორტებთ, ეს დირექტივი ავტომატურად აქტიურდება ყველა `<form>` ელემენტზე.
 - `NgModelGroup` - ქმნის და აბამს `FormGroup`-ის ინსტანციას DOM ელემენტს.
 
-აუცილებელია `FormsModule`-ის დაიმპორტება საჭირო მოდულში, რათა ამ დირექტივებზე წვდომა გვქონდეს.
+აუცილებელია `FormsModule`-ის დაიმპორტება საჭირო კომპონენტში (ან მოდულში), რათა ამ დირექტივებზე წვდომა გვქონდეს.
 
 ## ფორმის აწყობა
 
@@ -58,11 +58,15 @@ template-driven ფორმები ეყრდნობიან `FormsModul
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-hero-form",
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: "./hero-form.component.html",
-  styleUrls: ["./hero-form.component.css"],
+  styleUrl: "./hero-form.component.css",
 })
 export class HeroFormComponent {
   friends = ["Tariel", "Avtandil", "Nuradin-Pridon"];
@@ -204,7 +208,7 @@ export class HeroFormComponent {
 ისნტანციას ვინახავთ, რომელსაც გარკვეული თვისებები გააჩნია. თუ კონტროლი არავალიდურია, ჩვენ
 გვინდა რომ თითოეული ველის ქვეშ ამის შესახებ მინიშნება გამოჩნდეს. მაგრამ ეს მინიშნება არ გვინდა,
 რომ თავიდანვე ხილვადი იყოს, ფორმა კი თავიდან არავალიდურია. სწორედ ამიტომ ასევე ვიყენებთ
-`pristine` ცვლადს. ეს მიშმავს, რომ მომხმარებელს ჯერ არეფერი შეუყვანია ველში. ჩვენ
+`pristine` ცვლადს. ეს ნიშნავს, რომ მომხმარებელს ჯერ არეფერი შეუყვანია ველში. ჩვენ
 მინიშნება მაშინ გვინდა გამოვაჩინოთ, როცა კონტროლი არავალიდურია და მასში ცვლილება
 უკვე შეტანილი იყო. `pristine`-ის საპირისპირო თვისებაც არსებობს -- `dirty`, რომელიც შეგვიძლია
 გამოვიყენოთ ამ პირველის ნეგაციის მაგივრად.

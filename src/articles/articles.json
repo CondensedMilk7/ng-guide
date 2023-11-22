@@ -2,5 +2,5 @@
   "templateEngineOverride": "md",
   "tags": "articles",
   "layout": "base",
-  "permalink": "{{ page.filePathStem | rootify }}"
+  "permalink": "{{ page.filePathStem | rootify }}.html"
 }

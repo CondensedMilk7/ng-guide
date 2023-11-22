@@ -21,11 +21,14 @@ title: "Input & Output"
 
 ```ts
 import { Component, Input } from "@angular/core";
+import { CommonModule } from "@angular/core";
 
 @Component({
   selector: "app-child",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./child.component.html",
-  styleUrls: ["./child.component.scss"],
+  styleUrl: "./child.component.scss",
 })
 export class ChildComponent {
   @Input() message: string = "";
@@ -49,11 +52,14 @@ export class ChildComponent {
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  styleUrl: "./app.component.scss",
 })
 export class AppComponent {
   messages = ["The first message", "The seco nd message"];
@@ -107,11 +113,14 @@ export class AppComponent {
 
 ```ts
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-child",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./child.component.html",
-  styleUrls: ["./child.component.scss"],
+  styleUrl: "./child.component.scss",
 })
 export class ChildComponent {
   @Input() message: string = "";

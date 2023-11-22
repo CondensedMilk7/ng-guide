@@ -10,12 +10,15 @@ title: "ჩაშენებული ვალიდატორები"
 
 ```ts
 import { Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
 
 @Component({
   selector: "app-signup-form",
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: "./signup-form.component.html",
-  styleUrls: ["./signup-form.component.css"],
+  styleUrls: "./signup-form.component.css",
 })
 export class SignupFormComponent {
   signupForm = this.fb.group({

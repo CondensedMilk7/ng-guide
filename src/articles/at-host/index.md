@@ -19,6 +19,7 @@ import { Directive, HostListener } from "@angular/core";
 
 @Directive({
   selector: "[appExample]",
+  standalone: true,
 })
 export class ExampleDirective {
   constructor() {}
@@ -43,15 +44,18 @@ enter ღილაკზე დაჭერას ვუსმენთ და �
 
 ```ts
 import { HostListener, Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app",
+  standalone: true,
+  imports: [CommonModule],
   template: ` <h1>
       Hello, you have pressed enter {{ counter }} number of times!
     </h1>
     Press enter key to increment the counter.`,
 })
-class AppComponent {
+export class AppComponent {
   counter = 0;
   @HostListener("window:keydown.enter")
   handleKeyDown() {

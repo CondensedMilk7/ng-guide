@@ -24,15 +24,18 @@ someObservable = source.pipe(/* operators go here */);
 მაუსის კოორდინატებს დააემითებს მაუსის მოძრაობაზე:
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { fromEvent, map } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   // Create an observable that emits mousemove events
   mouseMove$ = fromEvent<MouseEvent>(document, "mousemove");
 
@@ -60,8 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  ngOnDestroy(): void {}
 }
 ```
 
@@ -84,15 +85,18 @@ export class AppComponent implements OnInit, OnDestroy {
 წავშალოთ სუბსქრაიბი და დავტოვოთ სტრიმი:
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { fromEvent, map } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   // Create an observable that emits mousemove events
   mouseMove$ = fromEvent<MouseEvent>(document, "mousemove");
 
@@ -111,10 +115,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     })
   );
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }
 ```
 
@@ -138,15 +138,18 @@ export class AppComponent implements OnInit, OnDestroy {
 ჩვენი წინა მაგალითის სტრიმს `map` ოპერატორის შემდეგ დავამატოთ `tap`.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { fromEvent, map, tap } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   // Create a observable that emits mousemove events
   mouseMove$ = fromEvent<MouseEvent>(document, "mousemove");
 
@@ -168,10 +171,6 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(coordinates);
     })
   );
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }
 ```
 
@@ -197,15 +196,18 @@ export class AppComponent implements OnInit, OnDestroy {
 მეტია 300-ზე.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { filter, fromEvent, map, tap } from "rxjs";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { fromEvent, map, tap, filter } from "rxjs";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   // Create an observable that emits mousemove events
   mouseMove$ = fromEvent<MouseEvent>(document, "mousemove");
 
@@ -229,10 +231,6 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(coordinates);
     })
   );
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }
 ```
 
@@ -245,35 +243,35 @@ export class AppComponent implements OnInit, OnDestroy {
 ერთი სტრიმიდან გადავეროთ მეორეზე. ვთქვათ გვაქვს სტრიმი, რომელიც რაუთის
 პარამეტრებს გასცემს და ჩვენ ყოველ უახლეს გაცემულ პარამეტრზე გვინდა საპასუხოდ
 HTTP მოთხოვნა გავაგზავნოთ, რომელიც ამ პარამეტრიდან მონაცემს გამოიყენებს.
+ჩვენ შეგვიძლია, რომ პარამეტრების სტრიმი "გადავაბათ" პროდუქტის HTTP მოთსოვნის
+სტრიმს.
 
-იმავე პროექტში შევქმნათ products კომპონენტი. `AppModule`-ში დავამატოთ
+იმავე პროექტში შევქმნათ products კომპონენტი `ng g c products` ბრძანებით, შემდეგ `app.routes.ts`-ში დავამატოთ
 რაუთები:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-
-import { AppComponent } from "./app.component";
 import { ProductsComponent } from "./products/products.component";
-import { RouterModule, Routes } from "@angular/router";
-import { HttpClientModule } from "@angular/common/http";
+import { Routes } from "@angular/router";
 
-const routes: Routes = [{ path: "products/:id", component: ProductsComponent }];
-
-@NgModule({
-  declarations: [AppComponent, ProductsComponent],
-  imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+export const routes: Routes = [
+  { path: "products/:id", component: ProductsComponent },
+];
 ```
 
-ჩვენ პროდუქტების მისამართზე გვექნება `id` პარამეტრი. აქვე შემოგვაქვს
-`HttpClientModule` და რა თქმა უნდა `RouterModule`-ში ვარეგისტრირებთ
-ჩვენს რაუთებს.
+ჩვენ პროდუქტების მისამართზე გვექნება `id` პარამეტრი.
 
-`AppComponent`-ში მოვათავსოთ აუთლეტი:
+`app.config.ts`-ში შემოვიტანოთ `provideHttpClient`:
+
+```ts
+import { ApplicationConfig } from "@angular/core";
+import { provideHttpClient } from "@angular/common/http";
+
+export const appConfig: ApplicationConfig = {
+  providers: [/* ... */ provideHttpClient()],
+```
+
+`AppComponent`-ში მოვათავსოთ აუთლეტი არ დაგავიწყდეთ `RouterOutlet`-ის დამატება
+კომპონენტის იმპორტებში:
 
 ```html
 <h1>{{ mouseCoordinates$ | async | json }}</h1>

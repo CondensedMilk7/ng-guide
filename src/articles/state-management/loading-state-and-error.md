@@ -95,7 +95,7 @@ export class TodoService {
     };
 
     this.http
-      .post<{ id: number }>(this.url, JSON.stringify(itemToAdd), {
+      .post<{ id: number }>(this.url, itemToAdd, {
         headers,
       })
       .pipe(
@@ -150,11 +150,15 @@ export class TodoService {
 
 ```ts
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { combineLatest, map } from "rxjs";
 import { TodoItem, TodoService } from "./todo.service";
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -261,3 +265,5 @@ export class AppComponent implements OnInit {
 ჩვენ ერორს გამოვიწვევთ (მაგალითად სერვისში არასწორი URL-ის გამოყენებით), ჩატვირთვის
 სპინერის გაქრობასთან ერთად შედეგად გამოგვიჩნდება ერორის მესიჯი. რა თქმა უნდა, ეს
 მომხმარებლისთვის მარტივად გასაგები მესიჯი არ არის, თუმცა ჯერჯერობით ესეც საკმარისია.
+
+ახლა დროა [მონაცემების განახლებასა და წაშლაზე](./update-and-delete.html) ვიზრუნოთ.

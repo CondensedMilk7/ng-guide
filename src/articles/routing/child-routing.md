@@ -9,25 +9,18 @@ title: "Child Routing"
 აპლიკაციაში გვაქვს ორი კომპონენტი: `FirstComponent` `LastComponent` და
 ისინი სათანადო მისამართებზე იტვირთება, როგორც ეს როუთინგის კონფიგურაციაშია:
 
-app-routing.module.ts
+app.routes.ts-ში:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { FirstComponent } from "./first/first.component";
 import { SecondComponent } from "./second/second.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "first", component: FirstComponent },
   { path: "second", component: SecondComponent },
   { path: "", redirectTo: "first", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 `router-outlet` გვაქვს განთავსებული `AppComponent`-ში.
@@ -45,6 +38,8 @@ export class AppRoutingModule {}
 <router-outlet></router-outlet>
 ```
 
+> **შენიშვნა:** არ დაგავიწყდეთ კომპონენტში `RouterModule`-ის შემოტანა.
+
 ახლა ვთქვათ გვინდა, რომ Second კომპონენტის შიგნით შევძლოთ კიდევ სხვადასხვა კომპონენტზე
 ნავიგაცია. შევქმნათ ორი კომპონენტი `SecondComponent`-ის შიგნით.
 
@@ -57,17 +52,16 @@ ng g c second/child-two
 ```
 
 ამ კომპონენტებს უკვე აქვთ თემფლეითში მარკაპი, რომ შედეგი დავინახოთ.
-ახლა კონფიგურაციას მივხედოთ `app-routing.module.ts`-ში:
+ახლა კონფიგურაციას მივხედოთ `app.routes.ts`-ში:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { FirstComponent } from "./first/first.component";
 import { ChildOneComponent } from "./second/child-one/child-one.component";
 import { ChildTwoComponent } from "./second/child-two/child-two.component";
 import { SecondComponent } from "./second/second.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "first", component: FirstComponent },
   {
     path: "second",
@@ -79,12 +73,6 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "first", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 იმ როუთისთვის, რომლის შიგნითაც გვინდა დამატებითო როუთების შექმნა,
@@ -117,7 +105,44 @@ export class AppRoutingModule {}
 
 ახლა `second` მისამართის შიგნით child routing უნდა მუშაობდეს.
 
-## Lazy Loading
+## რამდენიმე რაუთის ერთდროულად ზარმაცად ჩატვირთვა
+
+ჩვენ შეგვიძლია მთლიანი რაუთების კონფიგურაცია ჩავტვირთოთ ზარმაცად.
+წარმოვიდგინოთ რომ პროექტში გვაქვს ფოლდერი `admin` სადაც ინახება
+ადმინისტრატორის გვერდის კომპონენტები. ესენია:
+`admin-home.component.ts`, სადაც ადმინისტრატორის მთავარი გვერდია
+(`/admin/home`) და `admin-users.component.ts`, სადაც ადმინისტრატორი
+მომხმარებლებს მართავს (`/admin/users`). ამავე ფოლდერში შეიძლება
+გვქონდეს რაუთების კონფიგურაცია:
+
+```ts
+// admin/admin.routes.ts
+
+export const ADMIN_ROUTES: Route[] = [
+  { path: "home", component: AdminHomeComponent },
+  { path: "users", component: AdminUsersComponent },
+  // ...
+];
+```
+
+მაშინ შეგვიძლია მთავარი რაუთების კონფიგურაციის ობიექტში
+(`app.routes.ts`-ში) ის შემოვიტანოთ `loadChildren` თვისების
+ქვეშ:
+
+```ts
+// app.routes.ts
+export const routes: Route[] = [
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./admin/routes").then((mod) => mod.ADMIN_ROUTES),
+  },
+  // ...
+];
+```
+
+<!-- TODO: ცალკე NgModule-ის თავში გადავიტანო -->
+<!-- ## Lazy Loading (მოდულებით)
 
 ზოგჯერ შეიძლება დაგვჭირდეს თვითონ პროექტის ცალკეული გვერდების მოდულებად
 ორგანიზება, სადაც ამ კომპონენტებს თავიანთი routing მოდული ექნებათ.
@@ -248,4 +273,4 @@ export class AppRoutingModule {}
 მოხდეს როუთინგი. ამისთვის დაგვჭირდა `children` თვისების გამოყენება, სადაც
 დამატებითი როუთების კონფიგურაციას ვწერთ. შემდგომ ჩვენ განვიხილეთ როგორ
 დავაიმპორტოთ მთლიანი ცალკეული მოდულები lazy loading-ით. ასე მოდული
-იტვირთება მაშინ, როცა მისი საჭიროება იქმნება. ასე ჩვენ რესურსებს ვზოგავთ.
+იტვირთება მაშინ, როცა მისი საჭიროება იქმნება. ასე ჩვენ რესურსებს ვზოგავთ. -->

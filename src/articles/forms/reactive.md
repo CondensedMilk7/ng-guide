@@ -5,19 +5,8 @@ title: "Reactive Forms"
 # Reactive Forms
 
 რეაქტიული ფორმების გამოსაყენებლად საჭიროა მოდულში `ReactiveFormsModule`-ის
-დაიმპორტება `@angular/forms`-დან და მისი იმპორტების სიაში დამატება:
-
-```ts
-import { ReactiveFormsModule } from "@angular/forms";
-
-@NgModule({
-  imports: [
-    // other imports ...
-    ReactiveFormsModule,
-  ],
-})
-export class AppModule {}
-```
+დაიმპორტება `@angular/forms`-დან და მისი იმპორტების სიაში დამატება სათანადო
+კომპონენტში ან მოდულში.
 
 ## მარტივი კონტროლი
 
@@ -27,12 +16,15 @@ export class AppModule {}
 
 ```ts
 import { Component } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-signup-form",
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: "./signup-form.component.html",
-  styleUrls: ["./signup-form.component.css"],
+  styleUrl: "./signup-form.component.css",
 })
 export class SignupFormComponent {
   name = new FormControl("");
@@ -67,22 +59,25 @@ export class SignupFormComponent {
 ანგულარს აქვს `FormBuilder` სერვიცი, რომელიც შეგვიძლია კლასში დავაინჯექთოთ.
 
 ```ts
-import { Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-signup-form",
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: "./signup-form.component.html",
-  styleUrls: ["./signup-form.component.css"],
+  styleUrl: "./signup-form.component.css",
 })
 export class SignupFormComponent {
+  private fb = inject(FormBuilder);
+
   signupForm = this.fb.group({
     name: [""],
     email: [""],
     password: [""],
   });
-
-  constructor(private fb: FormBuilder) {}
 
   onSubmit() {
     console.log(this.signupForm.value);
@@ -219,14 +214,14 @@ export class SignupFormComponent {
 
 ```ts
 export class SignupFormComponent {
+  private fb = inject(FormBuilder);
+
   signupForm = this.fb.group({
     name: [""],
     email: [""],
     password: [""],
     positions: this.fb.array([this.fb.control("")]),
   });
-
-  constructor(private fb: FormBuilder) {}
 
   get positions() {
     return this.signupForm.controls["positions"];

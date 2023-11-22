@@ -12,25 +12,18 @@ title: "Route Params"
 წინასწარ გვაქვს გამზადებული აპლიკაცია როუთინგით.
 app.component.html-ში გვაქვს `router-outlet`.
 
-`AppRoutingModule`-ში გვაქვს ასეთი კონფიგურაცია:
+`app.routes.ts`-ში გვაქვს ასეთი კონფიგურაცია:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { ProductDetailsComponent } from "./product-details/product-details.component";
 import { ProductsComponent } from "./products/products.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "products", component: ProductsComponent },
   { path: "products/:id", component: ProductDetailsComponent },
   { path: "", redirectTo: "products", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 ეს ორი გვერდი დანიშნულებით განსხვავდება. პირველი გვერდი შეიცავს
@@ -74,8 +67,7 @@ export class ProductsService {
       price: 899,
       description:
         'Gen 2 14" FHD (Intel 4-Core i5-1135G7, 16GB RAM, 512GB SSD, UHD Graphics) IPS Business Laptop, Backlit, Fingerprint, 2 x Thunderbolt 4, Webcam, 3-Year Warranty, Windows 11 Pro ',
-      image:
-        "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T2/images/I/71ZkGdXho8L._AC_SL1500_.jpg",
+      image: "https://example.com",
     },
     {
       id: 1,
@@ -83,8 +75,7 @@ export class ProductsService {
       price: 1200,
       description:
         "Touchscreen Laptop - 13.4-inch UHD+ Display, Thin and Light, Intel Core i5-1135G7, 8GB LPDDR4x RAM, 512GB SSD, Intel Iris Xe, Killer Wi-Fi 6 with Dell Service, Win 11 Home - Silver ",
-      image:
-        "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T2/images/I/81fiaID-a+L._AC_SL1500_.jpg",
+      image: "https://example.com",
     },
     {
       id: 2,
@@ -92,8 +83,7 @@ export class ProductsService {
       price: 1246,
       description:
         "FHD Touchscreen Laptop, Intel Core i7-1165G7, 64GB RAM, 2TB SSD, Backlit Keyboard, Intel Iris Xe Graphics, Fingerprint Reader, Webcam, Windows 11 Pro, Silver, 32GB USB Card ",
-      image:
-        "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T2/images/I/51eDX+ID6mL._AC_SL1000_.jpg",
+      image: "https://example.com",
     },
   ];
 
@@ -117,10 +107,14 @@ ProductsComponent უბრალოდ იღებს ამ პროდუ�
 
 ```ts
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ProductsService } from "../products.service";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-products",
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
@@ -146,7 +140,8 @@ export class ProductsComponent {
 ```
 
 ჩვენ უბრალოდ `NgFor` დირექტივით განვათავსებთ სერვისიდან აღებულ
-პროდუქტებს და ასევე მათთვის ვქმნით სანავიგაციო ლინკებს routerLink-ით.
+პროდუქტებს და ასევე მათთვის ვქმნით სანავიგაციო ლინკებს `routerLink`-ით
+(კომპონენტში საჭიროა `RouterLink` დირექტივის დაიმპორტება).
 თითოეული პროდუქტის ლინკს ექნება ექნება თავისი აიდი, path-ის იმ ადგილას,
 სადაც როუთის კონფიგურაციაში `:id` გვიწერია.
 
@@ -156,26 +151,26 @@ export class ProductsComponent {
 კონკრეტული პროდუქტი.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { Subject, takeUntil } from "rxjs";
 import { Product } from "../product.model";
 import { ProductsService } from "../products.service";
 
 @Component({
   selector: "app-product-details",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./product-details.component.html",
   styleUrls: ["./product-details.component.css"],
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent {
   product!: Product;
 
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.route.params.subscribe((params) => {
       const product = this.productsService.getProductById(+params["id"]);
       if (product) {
@@ -186,18 +181,18 @@ export class ProductDetailsComponent implements OnInit {
 }
 ```
 
-ჩვენ პროდუქტს შევინახავთ `product` ცვლადში. ამ კომპონენტში შემოგვაქვს `NgOnInit`
-lifecycle hook, ასე გვაქვს საშუალება, რომ `ngOnInit` მეთოდში ვაწარმოოთ ოპერაციები,
-რომლებიც აპლიკაციის ინიციალიზაციის დროს უნდა მოხდეს. ჩვენ კონსტრუქტორში
-ProductsService-ის გარდა ვაინჯექთებთ `ActivatedRoute`, სწორედ მისი დახმარებით
-ვიღებთ ინფორმაციას აქტიურ როუთზე.
+ჩვენ პროდუქტს შევინახავთ `product` ცვლადში. კონსტრუქტორში
+`ProductsService`-ის გარდა ვაინჯექთებთ `ActivatedRoute`, სწორედ მისი დახმარებით
+ვიღებთ ინფორმაციას აქტიურ როუთზე კონსტრუქტორის სხეულშივე აღვწერთ მონაცემების
+აღების ლოგიკას. კონსტრუქტორში ჩაწერილი ლოგიკა აქტიურდება კომპონენტის ინიციალიზაციისას.
 
 ჩვენ გვაინტერესებს `params` თვისება, რომელიც აბრუნებს observable-ს, შესაბამისად
 ჩვენ უნდა დავასუბსქრაიბოთ მასზე. ქოლბექში ვიღებთ პარამეტრებს. ავიღოთ
 პარამეტრებიდან `id` თვისება და მივაწოდოთ ის არგუმენტად `productService.getProductById`-ს.
 `params`-ს წინ ვუწერთ `+`-ს, რადგან შედეგი ყოვეთვის სტრინგია, თუმცა ჩვენ `getProductById`
-მეთოდში რიცხვი გვჭირდება, ასე მას რიცხვად გარდავქმნით. პროდუქტის არსებობის შემთხვევაში
-ჩვენ მას კლასის თვისებაში ვინახავთ და თემფლეითში გამოვსახავთ:
+მეთოდში რიცხვი გვჭირდება, ასე მას რიცხვად გარდავქმნით. ყოველი პარამეტრის ცვლილება
+observable-ში ახალ მნიშვნელობას გასცემს, რომლის საპასუხოდაც ჩვენ ახალ პროდუქტს ავითებთ.
+პროდუქტის არსებობის შემთხვევაში ჩვენ მას კლასის თვისებაში ვინახავთ და თემფლეითში გამოვსახავთ:
 
 ```html
 <div class="container">
@@ -219,55 +214,52 @@ ProductsService-ის გარდა ვაინჯექთებთ `Activa
 
 ასე აპლიკაცია ხელმძღვანელობს როუთის პარამეტრებით. აქვე რადგან კლასში
 საბსქრიფშენს ვიყენებთ, ჯობია თუკი მას გავაუქმებთ, როცა კომპონენტი განადგურდება.
-ამისთვის კლასში შემოგვაქვს `OnDestroy` ინტერფეისი და `ngOnDestroy` მეთოდი.
-ეს უკანასკნელი აქტიურდება კომპონენტის განადგურებისას. ჩვენ შეგვიძლია შევქმნათ
-`destroyed$` საბჯექთი, რომელსაც აპლიკაციის განადგურებისას დავანექსთებთ.
-კლასში ყველა საბსქრიბშენი შეგვიძლია იქამდე ვამუშავოთ, სანამ ეს საბჯექთი
-არ დაანექსთებს.
+ამისთვის შეგვიძლია გამოვიყენოთ
+[`takeUntilDestroyed`](https://angular.io/api/core/rxjs-interop/takeUntilDestroyed)
+ოპერატორი, რომელსაც
+`@angular/core/rxjs-interop` გვთავაზობს.
 
 ```ts
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { Subject, takeUntil } from "rxjs";
 import { Product } from "../product.model";
 import { ProductsService } from "../products.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-product-details",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./product-details.component.html",
   styleUrls: ["./product-details.component.css"],
 })
-export class ProductDetailsComponent implements OnInit, OnDestroy {
+export class ProductDetailsComponent {
   product!: Product;
-  destroyed$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
+  ) {
+    this.route.params.pipe(takeUntilDestroyed()).subscribe((params) => {
       const product = this.productsService.getProductById(+params["id"]);
       if (product) {
         this.product = product;
       }
     });
   }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-  }
 }
 ```
 
-სწორედ ამიტომ ვიყენებთ `route.params`-ზე ჯერ `pipe` მეთოდს, `subscribe`-მდე.
-ამ მეთოდში ვატარებთ `takeUntil` ოპერატორს (რომელიც `rxjs`-იდან უნდა დავაიმპორტოთ)
-და ამ ოპერატორში აქგუმენტად ვაწვდით `destroyed$` საბჯექთს. ამით ვეუბნებით ამ
+ჩვენ ვიყენებთ `route.params`-ზე ჯერ `pipe` მეთოდს, `subscribe`-მდე და მანდ
+ვაწვდით `takeUntilDestroyed` ოპერატორს. ამით ვეუბნებით ამ
 საბსქრიბშენს, რომ იქამდე იმუშაოს, სანამ კომპონენტი არ განადგურდება.
 როცა კლასში საბსქრიბშენები გვაქვს, ბევრი მათგანი კომპონენტის განადგურების შემდეგაც
 შეიძლება მუშაობდეს და ეს გარანტიას გვაძლევს, რომ აპლიკაცია ზედმეტ რესურსებს არ
 დახარჯავს. ჩვენ არ გვჭირდება პარამეტრებისთვის მოსმენა, როცა სხვა გვერდზე ვიმყოფებით.
+
+გაითვალისწინეთ, რომ `takeUntilDestroyed`-ის გამოყენება შესაძლებელია მხოლოდ კონსტრუქტორში,
+ან, სხვა შემთხვევაში, მისთვის `destroyRef`-ის მიწოდებით.
 
 ## შეჯამება
 

@@ -1,10 +1,10 @@
 ---
-title: "ამ წიგნის შესახებ"
+title: "ანგულარის ქართული გზამკვლევი"
 ---
 
-<img src="./assets/ng-logo.gif" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
+<img src="./assets/ng-logo.png" alt="Angular logo" style="max-width: 200px; display: block; margin: 1rem auto 0 auto;" />
 
-# ამ წიგნის შესახებ
+# ანგულარის ქართული გზამკვლევი
 
 ეს წიგნი არის Angular ფრეიმვორქის არაოფიციალური სახელმძღვანელო, სადაც
 შესაძლებელია გაეცნოთ ფრეიმვორქის ძირითად კონცეფციებს, ტექნიკებსა და პრაქტიკის
@@ -32,6 +32,11 @@ title: "ამ წიგნის შესახებ"
 შეძლებთ პატარა ვებ აპლიკაციების აწყობასა და შედარებით უფრო სერიოზული ტექნიკების ათვისებას.
 
 წიგნი შექმნილია [ფრიდონ თეთრაძის](https://pridontetradze.com) მიერ.
+
+ამ საიტის მასალა ეყრდნობა ანგულარის ოფიციალურ დოკუმენტაციებს:
+
+- [angular.io](https://angular.io)
+- [angular.dev](https://angular.dev)
 
 <div style="text-align: center; margin-top: 100px;">
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.

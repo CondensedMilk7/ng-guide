@@ -2,11 +2,11 @@
   "name": "ng-guide",
   "version": "1.0.0",
   "description": "The Unofficial Georgian Angular Guide",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "preinstall": "npx only-allow pnpm"
   },
   "author": "Pridon Tetradze",
   "license": "ISC",

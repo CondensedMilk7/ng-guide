@@ -24,4 +24,4 @@ title: "შეჯამება"
 - ნივთების სიაში სათაურის მოდიფიკაციის საშუალება
 - ნივთების სიის გაფილტვრა მათი სტატუსის მიხედვით (Routing Params-ის გამოყენებით)
 
-[ამ ბმულზე ნახავთ დასრულებული კოდის ნიმუშს.](https://github.com/CondensedMilk7/basic-rxjs-state-management)
+[ამ ბმულზე ნახავთ დასრულებული კოდის ნიმუშს.](https://github.com/CondensedMilk7/basic-rxjs-state-management/tree/ng17)
