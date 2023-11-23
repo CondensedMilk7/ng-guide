@@ -36,6 +36,7 @@ article h2 code,
 article h3 code {
   font-size: inherit;
   font-weight: 400;
+  color: var(--inline-code-clr);
 }
 
 article p {
