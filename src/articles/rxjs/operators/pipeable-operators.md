@@ -13,7 +13,7 @@ title: "Pipeable Operators"
 someObservable = source.pipe(/* operators go here */);
 ```
 
-### map
+## map
 
 `map` ოპერატორის საშუალებით შეგვიძლია შევცვალოთ სტრიმის მიერ დაბრუნებული
 მნიშვნელობები. მის ქოლბექში პარამეტრად ვიღებთ სტრიმის მიერ დაბრუნებულ შედეგს,
@@ -129,7 +129,7 @@ export class AppComponent {
 სუბსქრაიბის დაწერა არ გვიწევს. პლიუსი ის არის, რომ `async` ფაიფი
 ჩვენ მაგივრად გააკეთებს `unsubscribe`-ს კომპონენტის განადგურების დროს.
 
-### tap
+## tap
 
 `tap` ოპერატორით შეგვიძლია სტრიმის კონკრეტულ მონაკვეთში შევიჭრათ,
 ჩავწვდეთ მის ინფორმაციას და თვითონ სტრიმში არანაირი ცვლილება არ
@@ -184,7 +184,7 @@ export class AppComponent {
 დაგვეწერა, ქოლბექში მივიღებდით `MouseEvent` ტიპის ინფორმაციას. ანუ
 ფაიფის ოპერატორები თანმიმდევრულად მუშაობენ.
 
-### filter
+## filter
 
 `filter` ოპერატორო, როგორც ამაზე მისი სახელი მიგვანიშნებს, ფილტრავს
 სტრიმს. იმის მიხედვით, ფილტრის დაბრუნებული მნიშვნელობა არის თუ არა
@@ -237,7 +237,7 @@ export class AppComponent {
 შედეგად სტრიმი მხოლოდ მაშინ გასცემს მნიშვნელობას როცა მაუსის კოორდინატები
 აღემატება 300-ს.
 
-### switchMap
+## switchMap
 
 `switchMap` ძალზედ სპეციფიკური ოპერატორია, რომლის საშუალებითაც შეგვიძლია
 ერთი სტრიმიდან გადავეროთ მეორეზე. ვთქვათ გვაქვს სტრიმი, რომელიც რაუთის
@@ -281,13 +281,16 @@ export const appConfig: ApplicationConfig = {
 და მივხედოთ `ProductsComponent`-ს:
 
 ```ts
-import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
 import { switchMap } from "rxjs";
 
 @Component({
   selector: "app-products",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
@@ -345,6 +348,27 @@ export class ProductsComponent {
 მიმდინარე მისამართზე `params` იცვლება, და შესაბამისად ჩვენი სტრიმის
 იცვლება ახალ http მოთხოვნად, რომელიც `sync` ფაიფის წყალობით აქტიურდება
 და გამოსახება აპლიკაციაში.
+
+## takeUntilDestroyed
+
+`takeUntilDestroyed` ანგულარის მიერ მოწოდებული ოპერატორია, რომელიც სტრიმს იქამდე
+ამუშავებს, სანამ კომპონენტი არ განადგურდება:
+
+```ts
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+/* ... */
+export class AppComponent {
+  constructor(private route: ActivatedRoute) {
+    this.route.params
+      .pipe(takeUntilDestroyed())
+      .subscribe((params) => console.log(params));
+  }
+}
+```
+
+ეს ოპერატორი არგუმენტების გარეშე იმუშავებს მხოლოდ კონსტრუქტორის შიგნით,
+რადგან იქ პირდაპირ ხელმისაწვდომია კომპონენტის `DestroyRef`, სხვა შემთხვევაში
+ის ჩვენით უნდა მივაწოდოთ ამ ოპერატორს.
 
 ### შეჯამება
 
