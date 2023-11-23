@@ -123,4 +123,73 @@ export class ChildComponent {}
 `@Component` დეკორატორის დანიშნულება ამით არ ამოიწურება. მის შესახებ დეტალური ინფორმაციისთვის
 [გაეცანით ოფიციალურ დოკუმენტაციას](https://angular.io/api/core/Component).
 
+## სიცოცხლის ციკლი
+
+აპლიკაციაში კომპონენტებს გააჩნიათ სიცოცხლის ციკლი. ისინი თავიანთი არსებობის განმავლობაში
+კონკრეტულ ეტაპებს გადიან და ჩვენ შგევიძლია ამ ეტაპებში კონკრეტული ოპერაციების განხორციელება,
+ეგრედ წოდებული lifecycle hook-ების დახმარებით.
+ანგულარი ამის საშუალებას გვაძლევს კომპონენტის კლასში ინტერფეისების იმპლემენტაციით და ამ
+ინტერფეისების მიხედვით კომპონენტში მეთოდების შექმნით. გავეცნოთ ორ ყველაზე გამოყენებად
+ჰუკებს: `ngOnInit` და `ngOnDestroy`.
+
+### ngOnInit
+
+`ngOnInit` ეშვება, როცა კომპონენტი ინიციალიზირდება. `AppComponent`-ის შემთხვევაში
+ეს შეიძლება იყოს როცა მომხმარებელი აპლიკაციას გახსნის. სხვა კომპონენტების შემთხვევაში -
+მაშინ, როცა აპლიკაცია მათ გამოაჩენს `NgIf` დირექტივით ან რაუტერით (ამ კონცეფციებს მოგვიანებით
+ვისწავლით).
+
+ჩვენ შემოგვაქვს `OnInit` ინტერფეისი `angular/core`-დან და მას იმპლემენტაციას ვუკეთებთ.
+
+```ts
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+})
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    console.log("კომპონენტი ინიციალიზირებულია!");
+  }
+}
+```
+
+### ngOnDestroy
+
+`ngOnDestroy` მაშინ აქტიურდება, როცა კომპონენტი ნადგურდება. ეს შეიძლება მოხდეს მაშინ,
+როცა აპლიკაცია გააქრობს კომპონენტს `NgIf` დირექტივით ან რაუტერით, ან როცა აპლიკაცია
+დაიხურება. ხშირად ამ ჰუკში ე.წ "მოსუფთავების ლოგიკას" ვწერთ, რათა ბრაუზერის მეხსიერება
+გავწმინდოთ ზედმეტი მონაცემებისგან.
+
+```ts
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+})
+export class AppComponent implements OnInit, OnDestroy {
+  ngOnInit(): void {
+    console.log("კომპონენტი ინიციალიზირებულია!");
+  }
+
+  ngOnDestroy(): void {
+    console.log("აპლიკაცია განადგურდა!");
+  }
+}
+```
+
+როგორც ხედავთ, ერთ კომპონენტში შეგვიძლია ერთზე მეტი ჰუკის იმპლემენტაცია.
+დროთა განმავლობაში ამ ჰუკებს პრაქტიკულ მაგალითებში ვნახავთ. ამ ეტაპზე უბრალოდ უნდა ვიცოდეთ
+ზოგადად რა არის მათი დანიშნულება.
+
 ახლა ვნახოთ, [როგორ მუშაობს მარტივი რეაქტიულობა ანგულარში](./interpolation-data-binding.html)!
