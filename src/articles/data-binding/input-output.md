@@ -178,10 +178,62 @@ logLength(length: number) {
 ჩვენ დაემითებულ მნიშვნელობას ვიღებთ და ვაწვდით `logLength` მეთოდს, რომელიც ამ მნიშვნელობას
 კონსოლში ლოგავს.
 
+## ngOnChanges - ცვლილებებზე რეაგირება
+
+ჩვენ საშუალება გვაქვს, რომ შვილ კომპონენტში ვირეაგიროთ `@Input` თვისებაში შემოსულ ცვლილებებზე.
+ამისთვის არსებობს `ngOnChanges` სიცოცხლის ციკლის ჰუკი.
+
+```ts
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+
+@Component({
+  selector: "app-child",
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: "./child.component.html",
+  styleUrl: "./child.component.scss",
+})
+export class ChildComponent implements OnChanges {
+  @Input() message: string = "";
+  @Output() lengthCount = new EventEmitter<number>();
+
+  onCount() {
+    this.lengthCount.emit(this.message.length);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.message) {
+      console.log("მესიჯი განახლდა: ", changes.message.currentValue);
+    }
+  }
+}
+```
+
+`ngOnChanges`-ში გვაქვს `SimpleChanges` ტიპის პარამეტრი რომელსაც ანგულარი გვაწვდის.
+აქ თვისებების ფორმით ხელმისაწვდომია ყველა ჩვენი `@Input` დეკორატორით შექმნილი კლასის თვისება,
+მათ შორის `message`. ოღონდ ეს უშუალოდ ის სტრინგი არ არის, რომელიც ჩვენ შევქმენით,
+არამედ `SimpleChange` ტიპის ობიექტი, რომელსაც გააჩნია `currentValue`, `previousValue` და
+სხვა თვისებები. `ngOnChanges` ყოველ ჯერზე გაეშვება, როცა მშობელზე მიბმული `@Input` თვისება
+მნიშვნელობას შეიცვლის და ეს ახალი მნიშვნელობა ხელმისაწვდომია `currentValue`-ში.
+თუ რაიმე თვისება არ შეცვლილა, ის `changes`-ზე არ იარსებებს, ამიტომ ჯერ უნდა დავრწმუნდეთ,
+რომ ის არსებობს, სანამ მასზე ვირეაგირებთ.
+
+`ngOnChanges` უნდა გამოვიყენოთ დიდი სიფრთხილით, რადგან აქ მძიმე ლოგიკის გამოყენება
+აპლიკაციას შეანელებს.
+
 ## შეჯამება
 
 ამ თავში ჩვენ განვიხილეთ `Input` და `Output` დეკორატორები. `Input` დეკორატორის საშუალებით
 შვილ კომპონენტს გადავცემთ მნიშვნელობას მშობელი კომპონენტიდან, ხოლო `Output` დეკორატორის
 საშუალებით შვილ კომპონენტზე ვქმნით ივენთის ემითერს, რომელიც კონკრეტულ მნიშვნელობებს
 აემითებს. შვილის ივენთ ემითერს ჩვენ შეგვიძლია მშობელი ელემენტიდან მოვუსმინოთ და მოვიხელთოთ
-დაემითებული მნიშვნელობები `$event`-ის საშუალებით.
+დაემითებული მნიშვნელობები `$event`-ის საშუალებით. ჩვენ ასევე შეგვიძლია ვირეაგიროთ მშობლიდან
+შვილზე ჩამოწოდებული მონაცემების ცვლილებებზე `ngOnChanges` ჰუკით.
