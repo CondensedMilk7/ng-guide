@@ -11,56 +11,38 @@ title: "JWT Authentication"
 ტოკენებს, კერძოდ JSON Web Token-ებს (JWT). ჩვენ სწორედ ასეთ
 ტოკენებთან ვიმუშავებთ.
 
-ჩვენი ანგულარის აპლიკაცია შემდეგნაირად გამოიყურება. `AppModule`-ში გვაქვს შემოტანილი
-`HttpClientModule` და `JwtModule`. ეს უკანასკნელი არის დამხმარე ბიბლიოთეკა, რომელიც
-უნდა დავაინსტალიროთ შემდეგი ბრძანებით:
+ამ ნიმუშში ვიხელმძღვანელებთ ბიბლიოთეკით `@auth0/angular-jwt`, რომელიც JWT ტოკენებთან მუშაობას უფრო ამარტივებს.
 
 ```sh
 npm install @auth0/angular-jwt
 ```
 
-შემდეგ ეს ბიბლიოთეკა უნდა დავარეგისტრიროთ მოდულში:
+ჩვენი ანგულარის კონფიგურაცია შემდეგნაირად გამოიყურება. `app.config.ts`-ში პროვაიდერებში გვაქვს შემოტანილი
+`provideHttpClient` და `JwtModule` (რომელიც npm-ით დავაინსტალირეთ). ვინაიდან ეს უკანასკნელი მოდულზე დაფუძნებული ბიბლიოთეკაა,
+მისი დარეგისტრირება საჭიროა `importProvidersFrom` ფუნქციაში:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { AuthComponent } from "./auth/auth.component";
-import { HttpClientModule } from "@angular/common/http";
-import { LogoutComponent } from "./logout/logout.component";
-import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
+import { ApplicationConfig, importProvidersFrom } from "@angular/core";
+import { provideHttpClient } from "@angular/common/http";
 import { JwtModule } from "@auth0/angular-jwt";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    LogoutComponent,
-    ShoppingCartComponent,
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+    importProvidersFrom(
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: () => localStorage.getItem("access_token"),
+          allowedDomains: ["dummyjson.com"],
+        },
+      })
+    ),
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: () => localStorage.getItem("access_token"),
-        allowedDomains: ["dummyjson.com"],
-      },
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+};
 ```
 
 ამ მოდულს `forRoot` ში უნდა მივაწოდოთ კონფიგურაცია. ერთი მხრივ, ტოკენის
-გეთერი ფუნქცია - ჩვენ მას შევინახავთ და ავითებთ ლოკალური მეხსიერებიდან, ამიტომ ანონიმურ
+გეთერი ფუნქცია - ჩვენ მას შევინახავთ და ავიღებთ ლოკალური მეხსიერებიდან, ამიტომ ანონიმურ
 ფუნქციაში დავაბრუნოთ `localStorage.getItem` და ჩვენი ტოკენის key.
 `allowdDomains` არასავალდებულო კონფიგურაციაა, სადაც შეგვიძლია განვსაზღვროთ,
 მოდულმა რომელ დომეინებზე უნდა იმუშაოს. შესაძლოა გვაქვს რომელიმე დომეინი,
@@ -102,19 +84,17 @@ export class CartService {
 კერძოდ `Authentication` ჰედერს, რომელიც არის `Bearer` და ამას
 მოყვება მეხსიერებაში შენახული ტოკენი, რომელიც შეიძლება ავტენტიფიკაციის
 სერვისით ავიღოთ. `JwtModule`-ის დახმარებით ამის გაკეთება არ გვჭირდება.
+მეტიც, ამ ბიბლიოთეკით ტოკენის დეკოდირება და მისი ვადის შემოწმებაც შეგვიძლია.
 
-შევხედოთ ჩვენი როუთინგის კონფიგურაციას:
+შევხედოთ ჩვენი როუთინგის კონფიგურაციას `app.routes.ts`-ში:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
-import { AuthGuard } from "./guards/auth.guard";
 import { LogoutComponent } from "./logout/logout.component";
-import { canActivateCart } from "./services/auth.service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "auth", component: AuthComponent },
   { path: "logout", component: LogoutComponent },
   {
@@ -123,12 +103,6 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "cart", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 ჩვენ გვაქვს სამი ძირითადი მისამართი და სამი შესაბამისი კომპონენტი.
@@ -160,7 +134,9 @@ export class AppRoutingModule {}
 
 გვაქვს ლინკები `auth` და `logout` გვერდებზე, და, რა თქმა უნდა, აუთლეტი.
 
-types ფოლდერში გვაქვს შექმნილი პროდუქტის და კალათის მოდელი:
+`types` ფოლდერში გვაქვს შექმნილი პროდუქტის და კალათის მოდელი.
+
+`product.model.ts`
 
 ```ts
 export interface Product {
@@ -178,6 +154,8 @@ export interface Product {
 }
 ```
 
+`types/cart.model.ts`
+
 ```ts
 import { Product } from "./product.model";
 
@@ -190,7 +168,7 @@ export interface ShoppingCart {
 ცალკე სერვისების ფოლდერში მოვათავსებთ სერვისებს. ჯერ მივხედოთ ავთენტიფიკაციის
 ლოგიკას.
 
-auth.service.ts
+`types/services/auth.service.ts`
 
 ```ts
 import { HttpClient } from "@angular/common/http";
@@ -288,11 +266,14 @@ post მოთხოვნით. აქ მესამე არგუმე�
 
 ```ts
 import { Component } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-auth",
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: "./auth.component.html",
   styleUrls: ["./auth.component.css"],
 })
@@ -301,6 +282,7 @@ export class AuthComponent {
     username: ["", Validators.required],
     password: ["", Validators.required],
   });
+
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   login() {
@@ -346,10 +328,13 @@ export class AuthComponent {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-logout",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./logout.component.html",
   styleUrls: ["./logout.component.css"],
 })
@@ -400,11 +385,14 @@ export class CartService {
 
 ```ts
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { CartService } from "../services/cart.service";
 import { ShoppingCart } from "../types/cart.model";
 
 @Component({
   selector: "app-shopping-cart",
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./shopping-cart.component.html",
   styleUrls: ["./shopping-cart.component.css"],
 })

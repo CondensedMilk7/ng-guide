@@ -11,7 +11,7 @@ title: "CanActivate (Route Guards)"
 ფუნქციები, თუმცა ძველ ვერსიებში ამის მაგივრად იყენებდნენ "Guard" კლასებს. ჩვენ უახლეს
 მეთოდს ვისწავლით, თუმცა მოგვიანებით ძველ მეთოდსაც შევხედავთ.
 
-ამ თავში ვიყენებთ წინა თავში არსებულ კოდს.
+ამ თავში ვიყენებთ [წინა თავში](./jwt-authentication.html) არსებულ კოდს.
 
 ## CanActivateFn
 
@@ -121,15 +121,13 @@ export const canActivateCart: CanActivateFn = (
 შეამოწმებენ შეიძლება თუ არა მოცემულ მისამართზე გადასვლა.
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
-import { AuthGuard } from "./guards/auth.guard";
 import { LogoutComponent } from "./logout/logout.component";
 import { canActivateCart } from "./services/auth.service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "auth", component: AuthComponent },
   { path: "logout", component: LogoutComponent },
   {
@@ -139,12 +137,6 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "cart", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 და ასე ჩვენი აპლიკაცია უფრო გამართული უნდა იყოს. ახლა თავიდანვე გარდი გადაგვამისამართებს
@@ -197,15 +189,13 @@ export class AuthGuard implements CanActivate {
 ამ კლასს იმავე პრინციპით ვამატებთ როუთინგის კონფიგურაციაში, `canActivate` თვისების მასივში:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { LogoutComponent } from "./logout/logout.component";
-import { canActivateCart } from "./services/auth.service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "auth", component: AuthComponent },
   { path: "logout", component: LogoutComponent },
   {
@@ -215,12 +205,6 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "cart", pathMatch: "full" },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
 ```
 
 და ასე აპლიკაცია იგივენაირად იმუშავებს.
