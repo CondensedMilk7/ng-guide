@@ -123,7 +123,6 @@ export const canActivateCart: CanActivateFn = (
 ```ts
 import { Routes } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
-import { AuthGuard } from "./guards/auth.guard";
 import { LogoutComponent } from "./logout/logout.component";
 import { canActivateCart } from "./services/auth.service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
@@ -194,7 +193,6 @@ import { Routes } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { LogoutComponent } from "./logout/logout.component";
-import { canActivateCart } from "./services/auth.service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 
 export const routes: Routes = [
