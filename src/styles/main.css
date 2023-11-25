@@ -199,8 +199,8 @@ a:hover {
   );
   background-size: 200%;
   background-attachment: fixed;
-  background-position: right;
-  animation: radiance 15s ease infinite;
+  /* background-position: right; */
+  /* animation: radiance 15s ease infinite; */
 }
 
 .light .radiance-container {
@@ -212,8 +212,8 @@ a:hover {
   );
   background-size: 200%;
   background-attachment: fixed;
-  background-position: right;
-  animation: radiance 15s ease infinite;
+  /* background-position: right; */
+  /* animation: radiance 15s ease infinite; */
 }
 
 .entries {
