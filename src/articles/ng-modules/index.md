@@ -98,22 +98,141 @@ import { MaterialModule } from "./material/material.module";
 export class AppModule {}
 ```
 
-## Lazy loading
+## Feature Modules
 
-ნაგულისხმევია, რომ როცა აპლიკაცია იტვირთება `NgModule`-ები პირდაპირ იტვირთება. მსგავსი ტიპის ჩატვირტა გულისხმობს, რომ როგორც კი აპლიკაცია ჩაირთვება ყველა მოდული ჩაიტვირთება,მნიშვნელობა არ აქვს ის საჭიროა თუ არა. დიდი აპლიკაციისთვის, რომელსაც გააჩნია ბევრი რაუთი (route), მსგავსად ჩატვირთვა ამძიმებს აპლიკაციას, ამიტომაც არის კარგი lazy loading-ის გამოყენება. lazy loading არის მიდგომა, რომელიც ტვირთვას იმ `NgModule`-ებს, რომელიც სჭირდება აპლიკაციას. მსგავსი მოქმედებებით, ვამცირებთ აპლიკაციის ზომას, რაც ამცირებს ჩატვირთვის დროს.
+მოდულარულ აპლიკაციებში გავრცელებული პრაქტიკაა აპლიკაციის ნაწილების feature მოდულებად დაყოფა.
+ეს გულისხმობს აპლიკაციის რაუთებისა და ფუნქციონალების მოდულებად დაჯგუფებას. წარმოიდგინეთ აპლიკაცია,
+სადაც გვაქვს ონლაინ მაღაზიის ფუნქციონალი (მომხმარებლისთვის) და ასევე ადიმინისტრატორის ფუნქციონალი,
+სადაც ადმინისტრატორები მართავენ მომხმარებლებს, პროდუქციას და ა.შ.
 
-თუ გვსურს, რომ ჩავტვირთოთ ანგულარის მოდული `lazy loading`-ით, უნდა გამოვიყენოთ `loadChildren`, `component`-ის ნაცვლად.
+მაშინ ჩვენი პროექტის არქიტექტურა ასე შეიძლება გამოიყურებოდეს:
 
-მაგალითი თუ როგორ შეიცვლება როუტინგის ძირითადი ფაილი (`AppRoutingModule`):
-
-```ts
-const routes: Routes = [
-  {
-    path: "visual",
-    loadChildren: () =>
-      import("./visual/visual.module").then((m) => m.VisualModule),
-  },
-];
+```
+src/app
+├── admin/
+│   ├── admin.module.ts
+│   ├── dashboard/
+│   ├── product-manager/
+│   └── user-manager/
+├── app.component.css
+├── app.component.html
+├── app.component.spec.ts
+├── app.component.ts
+├── app.module.ts
+├── app-routing.module.ts
+└── shop/
+    ├── browse/
+    ├── cart/
+    └── shop.module.ts
 ```
 
-იმის დასადასტურებლად მუშაობს თუ არა `lazy loading`, შეგიძლიათ შეამოწმოთ `network tab` (inspect -> network) თუ რამდენი ფაილი იტვირთება კონკრეტული როუტის ჩატვირთვის დროს.
+აქ ადმინისტრატორის ფოლდერია, ცალკე თავისი მოდულით და კომპონენტებით (`dashboard`, `product-manager`, `user-manager`),
+რომლებიც დეკლარირებულია `admin.module.ts`-ში:
+
+```ts
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { UserManagerComponent } from "./user-manager/user-manager.component";
+import { ProductManagerComponent } from "./product-manager/product-manager.component";
+import { RouterModule, Routes } from "@angular/router";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+
+const adminRoutes: Routes = [
+  { path: "product-manager", component: ProductManagerComponent },
+  { path: "user-manager", component: UserManagerComponent },
+  { path: "", component: DashboardComponent, pathMatch: "full" },
+];
+
+@NgModule({
+  declarations: [
+    UserManagerComponent,
+    ProductManagerComponent,
+    DashboardComponent,
+  ],
+  imports: [CommonModule, RouterModule.forChild(adminRoutes)],
+})
+export class AdminModule {}
+```
+
+აქვე შეგვიძლია რაუთების კონფიგურაციაც და მათი დარეგისტრირება `RouterModule.forChild`-ით, რადგან ესენი
+ერთგვარი შვილობილი რაუთებია, რომლებსაც ძირეულ რაუთინგში დავარეგისტრირებთ და ერთი კონკრეტული რაუთის
+ქვეშ მოვათავსებთ, მაგალითად `/admin`-ის ქვეშ, და შესაბამისად რაუთები გამოვა `/admin/product-manager`,
+`admin/user-manager` და უბრალოდ `/admin` (რომელიც `DashBoardComponent`-ს ჩატვირთავს).
+
+იგივე ეხება shop-ის მოდულს, სადაც `browse` და `cart` კომპონენტები გვაქვს, გაერთიანებული `shop.module.ts`-ში:
+
+```ts
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { BrowseComponent } from "./browse/browse.component";
+import { CartComponent } from "./cart/cart.component";
+import { Routes } from "@angular/router";
+
+const shopRoutes: Routes = [
+  { path: "cart", component: CartComponent },
+  { path: "", component: BrowseComponent, pathMatch: "full" },
+];
+
+@NgModule({
+  declarations: [BrowseComponent, CartComponent],
+  imports: [CommonModule],
+})
+export class ShopModule {}
+```
+
+შემდეგ ეს მოდულები, თავიანთი რაუთინგით, შეგვიძლია შევიტანოთ `AppModule`-ში.
+
+### Lazy Loading
+
+მოდულების "ზარმაცად" ჩატვირთვა გავრცელებული პრაქტიკაა, რათა რესურსები დავზოგოთ და
+მოდულის კოდი მხოლოდ მაშინ ჩავტვირთოთ ბრაუზერში, როცა მათთვის საჭირო რაუთებზე ვიმყოფებით.
+რათა ზემოთ ხსენებული მოდულები ზარმაცად ჩავტვირთოთ, ჩვენ გვჭირდება ძირეული რათუინგის კონფიგურაციაში
+(`app-routing.module.ts`), მათი დაიმპორტება `loadChildren` თვისების ქვეშ:
+
+```ts
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+
+const routes: Routes = [
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./admin/admin.module").then((m) => m.AdminModule),
+  },
+  {
+    path: "shop",
+    loadChildren: () => import("./shop/shop.module").then((m) => m.ShopModule),
+  },
+  { path: "", redirectTo: "shop", pathMatch: "full" },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+ჩვენ უშუალოდ მოდულებს ვაიმპორტებთ, რომლებიც, თუ გაიხსენებთ, შეიცავენ
+`RouterModule.forChild`-ს იმპორტების სიაში. საბოლოოდ ამ რაუთების კონფიგურაცია რეგისტრირდება
+`RouterModule.forRoot`-ში, და ეს ჩვენი `AppRoutingModule` შედის `AppModule`-ის იმპორტების სიაში:
+
+```ts
+import { AppRoutingModule } from "./app-routing.module";
+@NgModule({
+  /* ... */
+  imports: [AppRoutingModule],
+})
+export class AppModule {}
+```
+
+ბრაუზერში დეველოპერის ხელსაწყოებში ნეთვორქის ტაბს თუ დავაკვირდებით, მოდულის კოდი იტვირთება
+მათი სათანადო რაუთების მიხედვით. ხოლო feature მოდულების რაუთები კონფიგურირებულია ძირეულ
+რაუთებთან მიმართებაში, ანუ გვაქვს `/admin/user-manager`, `/shop/cart` და ა.შ.
+
+## შეჯამება
+
+ამ თავში ვისაუბრეთ ანგულარის მოდულებზე დაფუძნებულ აპლიკაციებზე, რომელიც ჩვენი აპლიკაციის ფუნქციონალის
+ორგანიზაციის ერთ-ერთ გზას წარმოადგენს. ჩვენ შეგვიძლია feature მოდულების შექმნა, სადაც აპლიკაციის ცალკეული
+კომპონენტები თუ სხვა ელემენტები ერთად არის შეკრული, თავიანთი რაუთის კონფიგურაციით. ეს მათი ზარმაცად
+ჩატვირთვის საშუალებას გვაძლევს, რათა მოდულლები მაშინ ჩაიტვირთოს, როცა სათანადო რაუთებზე ვიმყოფებით.
