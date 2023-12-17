@@ -123,3 +123,25 @@ blockquote {
     text-align: left;
   }
 }
+
+@media print {
+  article {
+    min-height: fit-content;
+    margin-bottom: 100vh;
+  }
+
+  pre,
+  .light pre {
+    border-radius: 0;
+    overflow: visible;
+    border-left: 2px solid var(--fg-light);
+    box-shadow: none;
+    margin: 1rem 0;
+  }
+
+  pre code {
+    padding-right: 1rem;
+    overflow: visible;
+    text-wrap: wrap;
+  }
+}

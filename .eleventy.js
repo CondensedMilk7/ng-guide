@@ -4,6 +4,7 @@ const MarkdownIt = require("markdown-it");
 const { execSync } = require("child_process");
 const mdAnchor = require("markdown-it-anchor");
 const mdHighlightjs = require("markdown-it-highlightjs");
+const filterArticles = require("./util/sort-articles");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/styles");
@@ -57,6 +58,8 @@ module.exports = function (eleventyConfig) {
   md.use(mdHighlightjs, { auto: false });
 
   eleventyConfig.setLibrary("md", md);
+
+  eleventyConfig.addCollection("sortedArticles", filterArticles);
 
   return {
     dir: {

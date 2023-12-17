@@ -336,3 +336,21 @@ a:hover {
     background-color: var(--bg-dark);
   }
 }
+
+@media print {
+  .main-container {
+    max-height: fit-content;
+  }
+
+  .main-header {
+    visibility: hidden;
+  }
+
+  aside {
+    visibility: hidden;
+  }
+
+  .main-footer {
+    visibility: hidden;
+  }
+}

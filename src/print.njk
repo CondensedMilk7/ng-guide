@@ -1,0 +1,14 @@
+---
+title: "ანგულარის ქართული გზამკვლევი"
+layout: "base.njk"
+description: "ისწავლე Angular-ის ფუნდამენტები ქართულად!"
+permalink: "print.html"
+---
+{%- for article in collections.sortedArticles -%}
+    <article>
+        {{ article.content | safe }}
+    </article>
+{%- endfor -%}
+<script>
+    window.print();
+</script>

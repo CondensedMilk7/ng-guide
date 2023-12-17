@@ -1,4 +1,5 @@
-import { themeSwitch } from "./theme/index.js";
+import { themeSwitch } from "./theme.js";
+import { listenToPrint } from "./print.js";
 
 const SIDENAV_ANIM_DURATION = 250;
 const container = document.querySelector(".radiance-container");
@@ -22,6 +23,7 @@ function showSidebar(show) {
 
 function init() {
   themeSwitch();
+  listenToPrint();
 
   const highlightedLink = document.querySelector("aside .active");
 
