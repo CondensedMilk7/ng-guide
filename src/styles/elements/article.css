@@ -17,6 +17,11 @@ article {
   margin-bottom: 0;
 }
 
+article .float-right {
+  float: right;
+  margin: 0 0 1rem 1rem;
+}
+
 article .main-title {
   font-size: 1.8rem;
   margin-bottom: 3rem;
@@ -122,26 +127,9 @@ blockquote {
   article {
     text-align: left;
   }
-}
 
-@media print {
-  article {
-    min-height: fit-content;
-    margin-bottom: 100vh;
-  }
-
-  pre,
-  .light pre {
-    border-radius: 0;
-    overflow: visible;
-    border-left: 2px solid var(--fg-light);
-    box-shadow: none;
+  article .float-right {
+    float: none;
     margin: 1rem 0;
-  }
-
-  pre code {
-    padding-right: 1rem;
-    overflow: visible;
-    text-wrap: wrap;
   }
 }

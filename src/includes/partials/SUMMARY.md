@@ -85,3 +85,7 @@
 - [Standalone Components](/standalone/index.html)
   - [შექმნა და გამოყენება](/standalone/creation-and-usage.html)
   - [Routing & Lazy-loading](/standalone/routing-and-lazy-loading.html)
+
+### სხვა
+
+- [ბოლოსიტყვაობა](/conclusion/index.html)

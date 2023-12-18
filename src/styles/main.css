@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans+Georgian:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 :root {
   --bg-dark: #0f0f11;
   --fg-dark: #fff;
@@ -334,23 +332,5 @@ a:hover {
     left: 0;
     display: none;
     background-color: var(--bg-dark);
-  }
-}
-
-@media print {
-  .main-container {
-    max-height: fit-content;
-  }
-
-  .main-header {
-    visibility: hidden;
-  }
-
-  aside {
-    visibility: hidden;
-  }
-
-  .main-footer {
-    visibility: hidden;
   }
 }
