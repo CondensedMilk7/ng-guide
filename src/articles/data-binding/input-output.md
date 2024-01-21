@@ -62,7 +62,7 @@ import { CommonModule } from "@angular/common";
   styleUrl: "./app.component.scss",
 })
 export class AppComponent {
-  messages = ["The first message", "The seco nd message"];
+  messages = ["The first message", "The second message"];
 }
 ```
 
@@ -79,7 +79,7 @@ export class AppComponent {
 ვაბამთ `messages` მასივში არსებულ მეორე სტრინგს. `message` ფროფერთი app-child-ზე
 მშობელი კომპონენტიდან ხელმისაწვდომია სწორედ `@Input()` დეკორატორის წყალობით.
 ასე child კომპონენტი თავის კლასში იმავე სახელის message თვისებაზე მიიღებს მშობელი
-ელემენტიდამ მიწოდებულ მნიშვნელობას, და მას თემფლეითში განათავსებს.
+ელემენტიდან მიწოდებულ მნიშვნელობას, და მას თემფლეითში განათავსებს.
 
 ტაიპსკრიპტის წყალობით ეს ფროფერთი მხოლოდ კონკრეტული ტიპის მონაცემს მიიღებს,
 ანუ თუ ჩვენ `message` ფროფერთიზე სხვა ტიპის მნიშვნელობას მივაბამთ, ეს გამოიწვევს
