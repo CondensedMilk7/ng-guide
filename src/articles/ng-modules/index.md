@@ -71,7 +71,7 @@ export class AppModule {}
 
 ```ts
 @NgModule({
-  declarations: [AppComponent, ExampleCopmonent, ExamplePipe, ExampleDirective],
+  declarations: [AppComponent, ExampleComponent, ExamplePipe, ExampleDirective],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
