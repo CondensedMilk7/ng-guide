@@ -49,6 +49,45 @@ export class AppModule {}
 ng new app-name --standalone=false
 ```
 
+პროექტში დაგენერირებული `app.module.ts` ერთად კრავს აპლიკაციისთვის საჭირო საშენ ბლოკებს:
+
+```ts
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+ანგულარის CLI-ის საშუალებით კომპონენტების, დირექტივებისა თუ ფაიფების შექმნისას მათი დეკლარაციები აქ დაემატება:
+
+```ts
+@NgModule({
+  declarations: [AppComponent, ExampleCopmonent, ExamplePipe, ExampleDirective],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+ეს იმას ნიშნავს, რომ ყველა კომპონენტში ხელმისაწვდომი იქნება მისივე მოდულში დეკლარირებული ყველა სხვა საშენი ბლოკი.
+დეკლარაციები, იმპორტები და პროვაიდერები ვრცელდება ყველაფერზე, რაც ამ მოდულშია კონფიგურირებული.
+`providers` თვისების კონფიგურაცია, საჭიროებისამებრ, შესაძლებელია უშუალოდ კომპონენტებში, ფაიფებსა თუ დირექტივებშიც,
+და მათ დეკორატორებში მიწოდებული ეს კონფიგურაცია მოდულზე უპირატესი იქნება.
+
+გასათვალისწინებელია, რომ შეიძლება [standalone კომპონენტების შემოტანა მოდულზე დაფუძნებულ აპლიკაციაში](/standalone/creation-and-usage#დამოუკიდებელი-კომპონენტის-შეტანა-ngmodule-ში),
+და პირიქით,
+[მოდულების შემოტანა standalone კომპონენტებში](/standalone/creation-and-usage#ngmodule-ების-შემოტანა-დამოუკიდებელ-კომპონენტებში).
+
 ## Custom მოდული
 
 ძირეული მოდულის გარდა, ასევე შესაძლებელი არის ცალკე მოდულების შექმნა. ცალკე მოდულის საშუალებით შესაძლებელია სხვადასხვა feature-ები ავკინძოთ ერთ მოდულში, ხოლო
@@ -159,7 +198,7 @@ export class AdminModule {}
 ქვეშ მოვათავსებთ, მაგალითად `/admin`-ის ქვეშ, და შესაბამისად რაუთები გამოვა `/admin/product-manager`,
 `admin/user-manager` და უბრალოდ `/admin` (რომელიც `DashBoardComponent`-ს ჩატვირთავს).
 
-იგივე ეხება shop-ის მოდულს, სადაც `browse` და `cart` კომპონენტები გვაქვს, გაერთიანებული `shop.module.ts`-ში:
+იგივე ეხება shop-ის მოდულს, სადაც `browse` და `cart` კომპონენტები გვაქვს გაერთიანებული `shop.module.ts`-ში:
 
 ```ts
 import { NgModule } from "@angular/core";
