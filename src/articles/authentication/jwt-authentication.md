@@ -18,17 +18,21 @@ npm install @auth0/angular-jwt
 ```
 
 ჩვენი ანგულარის კონფიგურაცია შემდეგნაირად გამოიყურება. `app.config.ts`-ში პროვაიდერებში გვაქვს შემოტანილი
-`provideHttpClient` და `JwtModule` (რომელიც npm-ით დავაინსტალირეთ). ვინაიდან ეს უკანასკნელი მოდულზე დაფუძნებული ბიბლიოთეკაა,
-მისი დარეგისტრირება საჭიროა `importProvidersFrom` ფუნქციაში:
+`provideHttpClient` და `JwtModule` (რომელიც npm-ით დავაინსტალირეთ). `provideHttpClient`-ს უნდა მივაწოდოთ
+პარამეტრი `withInterceptorsFromDi()`, რადგან `JwtModule` ინტერსეპტორებს იყენებს ტოკენის დასამატებლად.
+ვინაიდან `JwtModule` მოდულზე დაფუძნებული ბიბლიოთეკაა, მისი დარეგისტრირება საჭიროა `importProvidersFrom` ფუნქციაში:
 
 ```ts
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
-import { provideHttpClient } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { JwtModule } from "@auth0/angular-jwt";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(
       JwtModule.forRoot({
         config: {
