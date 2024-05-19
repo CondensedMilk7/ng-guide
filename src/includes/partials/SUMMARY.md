@@ -44,6 +44,7 @@
 ### ბექ-ენდთან მუშაობა
 
 - [HTTP მოთხოვნებთან მუშაობა](/http/index.html)
+- [ინტერცეპტორები](/http/interceptors.html)
 - [Authentication - ავტორიზაცია](/authentication/index.html)
   - [JWT Authentication](/authentication/jwt-authentication.html)
   - [CanActivate](/authentication/can-activate.html)
