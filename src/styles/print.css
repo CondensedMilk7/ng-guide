@@ -4,6 +4,10 @@
 }
 
 @media print {
+  html {
+    font-size: 11pt;
+  }
+
   .main-container {
     max-height: fit-content;
   }

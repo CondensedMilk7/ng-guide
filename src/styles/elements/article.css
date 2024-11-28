@@ -12,8 +12,7 @@ article {
   max-width: 850px;
   min-height: calc(100vh - 105px);
   padding: 3rem 3vmin;
-  text-align: justify;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   margin-bottom: 0;
 }
 
